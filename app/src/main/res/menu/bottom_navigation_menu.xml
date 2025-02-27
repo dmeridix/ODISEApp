@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_search"
+        android:title="Search"
+        android:icon="@drawable/outline_search_24" />
+    <item
+        android:id="@+id/nav_home"
+        android:title="Home"
+        android:icon="@drawable/outline_home_24" />
+    <item
+        android:id="@+id/nav_saved"
+        android:title="Guardados"
+        android:icon="@drawable/outline_bookmark_24" />
+    <item
+        android:id="@+id/nav_reserves"
+        android:title="Reservas"
+        android:icon="@drawable/outline_list_24" />
+</menu>
