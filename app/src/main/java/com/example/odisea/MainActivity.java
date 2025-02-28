@@ -1,62 +1,44 @@
 package com.example.odisea;
 
 import android.os.Bundle;
-import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        // Cargar ReservesHotel por defecto si es la primera vez que se abre la app
+        // Cargar HomeFragment por defecto si es la primera vez que se abre la app
         if (savedInstanceState == null) {
-            loadFragment(new ReservesHotel());
+            loadFragment(new HomeFragment());
         }
 
-        // Referencia al BottomNavigationView
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.menu.setGroupCheckable(0, true, false);
-
-        // Configurar el listener para manejar la navegación por fragments
         bottomNavigationView.setOnItemSelectedListener(item -> {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            switch (item.getItemId()) {
-                case R.id.nav_search:
-                    transaction.replace(R.id.fragment_container, new SearchFragment());
-                    break;
-                case R.id.nav_home:
-                    transaction.replace(R.id.fragment_container, new HomeFragment());
-                    break;
-                case R.id.nav_saved:
-                    transaction.replace(R.id.fragment_container, new SavedFragment());
-                    break;
-                case R.id.nav_reserves:
-                    transaction.replace(R.id.fragment_container, new ReservesHotel());
-                    break;
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) {
+                loadFragment(new HomeFragment());
+            } else if (itemId == R.id.nav_search) {
+                loadFragment(new SearchFragment());
+            } else if (itemId == R.id.nav_saved) {
+                loadFragment(new SavedFragment());
+            } else if (itemId == R.id.nav_reserves) {
+                loadFragment(new ReservesHotel());
             }
-            transaction.commit();
             return true;
         });
     }
 
     private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .commit();
     }
 }
