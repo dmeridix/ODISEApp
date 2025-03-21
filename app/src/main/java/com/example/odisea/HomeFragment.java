@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.Arrays;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -28,6 +30,13 @@ public class HomeFragment extends Fragment {
         // Configurar RecyclerView
         recyclerView = view.findViewById(R.id.recycler_view_places);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Crear una lista de nombres de lugares populares
+        List<String> placeNames = Arrays.asList("Lugar 1", "Lugar 2", "Lugar 3", "Lugar 4", "Lugar 5", "Lugar 6");
+
+        // Configurar el adaptador y asignarlo al RecyclerView
+        PopularPlacesAdapter adapter = new PopularPlacesAdapter(placeNames);
+        recyclerView.setAdapter(adapter);
 
         return view;
     }

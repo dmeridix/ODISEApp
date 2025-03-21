@@ -13,6 +13,12 @@
         android:theme="@style/Theme.ODISEA"
         tools:targetApi="31">
         <activity
+            android:name=".RestaurantDetailFragment"
+            android:exported="false" />
+        <activity
+            android:name=".detailHotel"
+            android:exported="false" />
+        <activity
             android:name=".HomeFragment"
             android:exported="false"
             android:theme="@style/Theme.ODISEA" />

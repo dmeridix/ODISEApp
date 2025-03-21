@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 
 public class ReservesHotel extends Fragment {
 
-    private EditText etStartDate, etEndDate, etGuests;
+    private Spinner etStartDate, etEndDate, etGuests;
     private Button btnReserve;
     private Calendar calendar;
 
@@ -27,10 +27,10 @@ public class ReservesHotel extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reserves_hotel, container, false);
 
-        etStartDate = view.findViewById(R.id.etStartDate);
-        etEndDate = view.findViewById(R.id.etEndDate);
-        etGuests = view.findViewById(R.id.etGuests);
-        btnReserve = view.findViewById(R.id.btnReserve);
+        etStartDate = view.findViewById(R.id.spnFechaInicial);
+        etEndDate = view.findViewById(R.id.spnFechaFinal);
+        etGuests = view.findViewById(R.id.spnNumeroPersonas);
+        btnReserve = view.findViewById(R.id.btnReservar);
         calendar = Calendar.getInstance();
 
         etStartDate.setOnClickListener(v -> showDatePicker(etStartDate));
