@@ -6,27 +6,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <!-- AppBarLayout para la imagen principal -->
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-            <ImageView
-                android:id="@+id/restaurant_main_picture"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:contentDescription="Imagen del restaurante"
-                app:layout_collapseMode="parallax" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
-
     <!-- Contenido principal -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -39,54 +18,72 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Nombre del restaurante -->
-            <TextView
-                android:id="@+id/restaurant_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textColor="@android:color/black"
-                android:textStyle="bold"
-                android:paddingBottom="8dp" />
-
-            <!-- Ubicación -->
-            <TextView
-                android:id="@+id/restaurant_location"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="@android:color/darker_gray"
-                android:paddingBottom="16dp" />
-
-            <!-- Calificación -->
+            <!-- Información principal del restaurante -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
+                android:orientation="vertical"
                 android:paddingBottom="16dp">
+
+                <!-- Nombre del restaurante -->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/restaurant_name"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Calificación:"
-                    android:textSize="14sp"
-                    android:textColor="@android:color/darker_gray" />
-                <TextView
-                    android:id="@+id/restaurant_rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="16sp"
+                    android:textSize="24sp"
                     android:textColor="@android:color/black"
                     android:textStyle="bold"
-                    android:paddingStart="8dp" />
+                    android:paddingBottom="8dp" />
+
+                <!-- Ubicación -->
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:id="@+id/restaurant_location"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="(reseñas)"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textColor="@android:color/darker_gray"
-                    android:paddingStart="4dp" />
+                    android:paddingBottom="8dp" />
+
+                <!-- Calificación -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="16dp">
+
+                    <!-- Texto "Muy bueno" -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Muy bueno"
+                        android:textSize="14sp"
+                        android:textColor="@android:color/black"
+                        android:paddingEnd="4dp" />
+
+                    <!-- Calificación numérica -->
+                    <TextView
+                        android:id="@+id/restaurant_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="7.8"
+                        android:textSize="16sp"
+                        android:textColor="@android:color/white"
+                        android:background="@drawable/bg_rounded_rating"
+                        android:padding="4dp"
+                        android:minWidth="32dp"
+                        android:minHeight="32dp" />
+                </LinearLayout>
             </LinearLayout>
+
+            <!-- Imagen principal -->
+            <ImageView
+                android:id="@+id/restaurant_main_picture"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:contentDescription="Imagen del restaurante"
+                android:layout_marginBottom="16dp" />
 
             <!-- Descripción del restaurante -->
             <TextView
@@ -97,17 +94,33 @@
                 android:textColor="@android:color/black"
                 android:paddingBottom="16dp" />
 
-            <!-- Botón de reserva -->
-            <Button
-                android:id="@+id/btn_reserve"
-                android:layout_width="wrap_content"
+            <!-- Botones de reserva y guardar -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Reservar ahora"
-                android:textColor="@android:color/white"
-                android:background="@drawable/bg_rounded_button_green"
-                android:padding="8dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp" />
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:paddingTop="8dp">
+
+                <!-- Botón de reserva -->
+                <Button
+                    android:id="@+id/btn_reserve"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Reservar"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/bg_rounded_button_green"
+                    android:padding="8dp"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- Icono de favoritos -->
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_favorite"
+                    android:background="@drawable/bg_rounded_button_blue"
+                    android:padding="8dp" />
+            </LinearLayout>
 
             <!-- Espacio entre la descripción y las características -->
             <View
@@ -115,12 +128,22 @@
                 android:layout_height="16dp"
                 android:layout_marginTop="16dp" />
 
-            <!-- Información detallada del restaurante -->
+            <!-- Características del restaurante -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingTop="16dp">
+
+                <!-- Título de características -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Características del restaurante"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:paddingBottom="8dp" />
 
                 <!-- Tipo de cocina -->
                 <LinearLayout
@@ -129,6 +152,7 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:paddingBottom="8dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -136,6 +160,7 @@
                         android:textSize="16sp"
                         android:textColor="@android:color/darker_gray"
                         android:paddingEnd="16dp" />
+
                     <TextView
                         android:id="@+id/restaurant_cuisine_type"
                         android:layout_width="wrap_content"
@@ -151,6 +176,7 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:paddingBottom="8dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -158,6 +184,7 @@
                         android:textSize="16sp"
                         android:textColor="@android:color/darker_gray"
                         android:paddingEnd="16dp" />
+
                     <TextView
                         android:id="@+id/restaurant_open_for"
                         android:layout_width="wrap_content"
@@ -173,6 +200,7 @@
                     android:orientation="horizontal"
                     android:gravity="center_vertical"
                     android:paddingBottom="8dp">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -180,6 +208,7 @@
                         android:textSize="16sp"
                         android:textColor="@android:color/darker_gray"
                         android:paddingEnd="16dp" />
+
                     <TextView
                         android:id="@+id/restaurant_ambiance"
                         android:layout_width="wrap_content"
@@ -187,26 +216,7 @@
                         android:textSize="16sp"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
-
-                <!-- Características adicionales -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Características del restaurante"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"
-                    android:textStyle="bold"
-                    android:paddingTop="16dp" />
-
-                <!-- Lista de características -->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_features"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
             </LinearLayout>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

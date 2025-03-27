@@ -36,6 +36,7 @@ public class RestaurantDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Inflar el layout del fragmento
         return inflater.inflate(R.layout.fragment_restaurant_detail, container, false);
     }
 
@@ -48,11 +49,9 @@ public class RestaurantDetailFragment extends Fragment {
         TextView restaurantName = view.findViewById(R.id.restaurant_name);
         TextView restaurantLocation = view.findViewById(R.id.restaurant_location);
         TextView restaurantRating = view.findViewById(R.id.restaurant_rating);
-        TextView restaurantCuisineType = view.findViewById(R.id.restaurant_cuisine_type);
-        TextView restaurantOpenFor = view.findViewById(R.id.restaurant_open_for);
-        TextView restaurantAmbiance = view.findViewById(R.id.restaurant_ambiance);
         TextView restaurantDescription = view.findViewById(R.id.restaurant_description);
         Button btnReserve = view.findViewById(R.id.btn_reserve);
+        ImageView btnFavorite = view.findViewById(R.id.btn_favorite); // Botón de favoritos
         RecyclerView rvFeatures = view.findViewById(R.id.rv_features);
 
         // Configuración del RecyclerView para mostrar las características
@@ -67,20 +66,19 @@ public class RestaurantDetailFragment extends Fragment {
                 if (restaurant != null) {
                     // Mostrar la imagen del restaurante
                     Glide.with(this).load(restaurant.getImageUrl()).into(restaurantMainPicture);
+
                     // Mostrar el nombre del restaurante
                     restaurantName.setText(restaurant.getName());
+
                     // Mostrar la ubicación del restaurante
                     restaurantLocation.setText(restaurant.getLocation());
+
                     // Mostrar la calificación del restaurante
                     restaurantRating.setText(String.valueOf(restaurant.getRating()));
-                    // Mostrar el tipo de cocina
-                    restaurantCuisineType.setText(restaurant.getCuisineType());
-                    // Mostrar el horario de apertura
-                    restaurantOpenFor.setText(restaurant.getOpenFor());
-                    // Mostrar el ambiente
-                    restaurantAmbiance.setText(restaurant.getAmbiance());
+
                     // Mostrar la descripción del restaurante
                     restaurantDescription.setText(restaurant.getDescription());
+
                     // Mostrar las características del restaurante
                     featuresAdapter.updateData(restaurant.getFeatures());
                 }
@@ -93,6 +91,12 @@ public class RestaurantDetailFragment extends Fragment {
         btnReserve.setOnClickListener(v -> {
             // Lógica para reservar una mesa
             // Por ejemplo, navegar a la pantalla de reserva
+        });
+
+        // Manejo del botón de favoritos
+        btnFavorite.setOnClickListener(v -> {
+            // Lógica para agregar/quitar de favoritos
+            // Puedes cambiar el color del icono o actualizar el estado en la base de datos
         });
     }
 }
