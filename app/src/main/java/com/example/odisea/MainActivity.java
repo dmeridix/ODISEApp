@@ -29,8 +29,6 @@ public class MainActivity extends AppCompatActivity {
                 loadFragment(new SearchFragment());
             } else if (itemId == R.id.nav_saved) {
                 loadFragment(new SavedFragment());
-            } else if (itemId == R.id.nav_reserves) {
-                loadFragment(new ReservesHotel());
             }
             return true;
         });

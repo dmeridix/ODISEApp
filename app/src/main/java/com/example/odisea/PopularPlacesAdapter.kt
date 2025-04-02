@@ -1,55 +1,58 @@
-package com.example.odisea;
+package com.example.odisea
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-import java.util.List;
+import android.content.Context
+import android.content.Intent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.odisea.DetailActivity
+import com.example.odisea.data.Lugar
 
-public class PopularPlacesAdapter extends RecyclerView.Adapter<PopularPlacesAdapter.PopularPlacesViewHolder> {
+class PopularPlacesAdapter(
+    private var lugares: List<Lugar>?,
+    private val context: Context
+) : RecyclerView.Adapter<PopularPlacesAdapter.ViewHolder>() {
 
-    private List<String> placeNames;
-
-    public PopularPlacesAdapter(List<String> placeNames) {
-        this.placeNames = placeNames;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_popular_place, parent, false)
+        return ViewHolder(view)
     }
 
-    @NonNull
-    @Override
-    public PopularPlacesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_popular_place, parent, false);
-        return new PopularPlacesViewHolder(view);
-    }
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val lugar = lugares?.get(position)
+        lugar?.let {
+            Glide.with(context).load(it.imagenUrl).into(holder.placeImage)
+            holder.placeName.text = it.nombre
 
-    @Override
-    public void onBindViewHolder(@NonNull PopularPlacesViewHolder holder, int position) {
-        int index = position * 2;
-        if (index < placeNames.size()) {
-            holder.placeName.setText(placeNames.get(index));
-        } else {
-            holder.placeName.setVisibility(View.GONE);
+            // Configurar el listener de clics
+            holder.itemView.setOnClickListener {
+                val intent = Intent(context, DetailActivity::class.java).apply {
+                    putExtra("id", lugar.id)
+                    putExtra("nombre", lugar.nombre)
+                    putExtra("descripcion", lugar.descripcion)
+                    putExtra("ubicacion", lugar.ubicacion)
+                    putExtra("calificacion", lugar.calificacion)
+                    putExtra("imagenUrl", lugar.imagenUrl)
+                    putExtra("tipoEstablecimiento", lugar.tipoEstablecimiento)
+                }
+                context.startActivity(intent)
+            }
         }
-        if (index + 1 < placeNames.size()) {
-            holder.placeName2.setText(placeNames.get(index + 1));
-        } else {
-            holder.placeName2.setVisibility(View.GONE);
-        }
     }
 
-    @Override
-    public int getItemCount() {
-        return (int) Math.ceil(placeNames.size() / 2.0);
+    override fun getItemCount(): Int = lugares?.size ?: 0
+
+    fun updateData(newLugares: List<Lugar>) {
+        this.lugares = newLugares
+        notifyDataSetChanged()
     }
 
-    static class PopularPlacesViewHolder extends RecyclerView.ViewHolder {
-        TextView placeName, placeName2;
-
-        PopularPlacesViewHolder(View itemView) {
-            super(itemView);
-            placeName = itemView.findViewById(R.id.place_name);
-            placeName2 = itemView.findViewById(R.id.place_name2);
-        }
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val placeImage: ImageView = itemView.findViewById(R.id.place_image)
+        val placeName: TextView = itemView.findViewById(R.id.place_name)
     }
 }

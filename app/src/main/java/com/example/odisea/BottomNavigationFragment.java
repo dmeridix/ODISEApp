@@ -29,8 +29,6 @@ public class BottomNavigationFragment extends Fragment {
                 selectedFragment = new HomeFragment();
             } else if (item.getItemId() == R.id.nav_saved) {
                 selectedFragment = new SavedFragment();
-            } else if (item.getItemId() == R.id.nav_reserves) {
-                selectedFragment = new ReservesHotel();
             }
 
             if (selectedFragment != null) {

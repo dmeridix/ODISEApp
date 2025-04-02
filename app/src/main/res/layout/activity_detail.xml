@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:contentDescription="Imagen del hotel"
+                android:contentDescription="Imagen del lugar"
                 app:layout_collapseMode="parallax" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Nombre del hotel -->
+            <!-- Nombre del lugar -->
             <TextView
                 android:id="@+id/hotel_name"
                 android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                     android:paddingStart="4dp" />
             </LinearLayout>
 
-            <!-- Descripción del hotel -->
+            <!-- Descripción del lugar -->
             <TextView
                 android:id="@+id/hotel_description"
                 android:layout_width="match_parent"
@@ -115,21 +115,28 @@
                 android:layout_height="16dp"
                 android:layout_marginTop="16dp" />
 
-            <!-- Normas del establecimiento -->
+            <!-- Sección de Características Específicas -->
             <LinearLayout
+                android:id="@+id/type_specific_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:visibility="gone"
                 android:paddingTop="16dp">
+
+                <!-- Título genérico -->
                 <TextView
+                    android:id="@+id/type_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Normas del establecimiento"
+                    android:text="Características"
                     android:textSize="16sp"
                     android:textColor="@android:color/black"
                     android:textStyle="bold" />
+
+                <!-- RecyclerView genérico -->
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_rules"
+                    android:id="@+id/rv_features"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
