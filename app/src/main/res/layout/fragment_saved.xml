@@ -5,38 +5,28 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Texto de bienvenida -->
+    <!-- Título -->
     <TextView
-        android:id="@+id/text_welcome"
+        android:id="@+id/text_saved_places"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hola, Nombre"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:paddingBottom="8dp" />
-
-    <!-- Texto de título "Lugares más populares" -->
-    <TextView
-        android:id="@+id/text_popular_places"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lugares más populares"
+        android:text="Lugares Guardados"
         android:textSize="18sp"
         android:textStyle="bold"
         android:paddingBottom="8dp" />
 
     <!-- ProgressBar para indicar carga -->
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/progress_bar_saved"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone" />
 
-    <!-- RecyclerView para los lugares populares -->
+    <!-- RecyclerView para los lugares guardados -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_places"
+        android:id="@+id/recycler_view_saved_places"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:scrollbars="vertical" />
 </LinearLayout>

@@ -11,7 +11,7 @@
     <!-- Header Fragment -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/Header"
-        android:name="com.example.odisea.HeaderFragment"
+        android:name="com.example.odisea.structure.HeaderFragment"
         tools:layout="@layout/fragment_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

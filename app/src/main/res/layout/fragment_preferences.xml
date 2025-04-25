@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Sección Perfil -->
+    <LinearLayout
+        android:id="@+id/profile_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Perfil Socio"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cuenta"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tv_profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre: --"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_profile_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Teléfono: --"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_profile_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email: --"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_profile_dni"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DNI: --"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_unsubscribe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Darse de baja"
+            android:background="#D2F4AA"
+            android:textColor="#000000"
+            android:padding="8dp"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+
+    <!-- Sección Reservas -->
+    <LinearLayout
+        android:id="@+id/reservations_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/profile_section"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tus reservas"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <!-- Reservas Hoteles -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reservas Hoteles"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tv_reservations_hotels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="• Pista de boley"
+            android:textSize="14sp" />
+
+        <!-- Reservas Restaurantes -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reservas Restaurantes"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tv_reservations_restaurants"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="• Pista de futbol sala"
+            android:textSize="14sp" />
+
+        <!-- Reservas Spas -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reservas Spas"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tv_reservations_spas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="• Pista de futbol 11"
+            android:textSize="14sp" />
+
+        <!-- Reservas Pistas -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reservas Pistas"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:id="@+id/tv_reservations_pistas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="• Pista de balonmano"
+            android:textSize="14sp" />
+
+        <!-- Botón Cancelar Reserva -->
+        <Button
+            android:id="@+id/btn_cancel_reservation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar Reserva"
+            android:background="#D2F4AA"
+            android:textColor="#000000"
+            android:padding="8dp"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

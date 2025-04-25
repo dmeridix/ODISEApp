@@ -1,4 +1,4 @@
-package com.example.odisea;
+package com.example.odisea.structure;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,6 +7,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.odisea.HomeFragment;
+import com.example.odisea.R;
+import com.example.odisea.SavedFragment;
+import com.example.odisea.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class BottomNavigationFragment extends Fragment {

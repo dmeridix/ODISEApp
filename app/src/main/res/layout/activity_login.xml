@@ -6,7 +6,6 @@
     android:background="@android:color/white"
     android:padding="16dp">
 
-    <!-- Logo ODISEA -->
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="wrap_content"
@@ -18,7 +17,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp" />
 
-    <!-- Título -->
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
@@ -31,20 +29,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Campo de Username -->
+    <!-- Campo de correo electrónico -->
     <EditText
         android:id="@+id/et_username"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Correo electronico"
-        android:inputType="textPersonName"
+        android:hint="Correo electrónico"
+        android:inputType="textEmailAddress"
         android:padding="16dp"
         android:layout_marginTop="32dp"
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Campo de Contraseña -->
+    <!-- Mensaje de error para el correo electrónico -->
+    <TextView
+        android:id="@+id/tv_email_error"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Por favor, ingresa tu correo electrónico"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/et_username"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Campo de contraseña -->
     <EditText
         android:id="@+id/et_password"
         android:layout_width="0dp"
@@ -53,18 +67,45 @@
         android:inputType="textPassword"
         android:padding="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/et_username"
+        app:layout_constraintTop_toBottomOf="@id/tv_email_error"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Botón de Inicio de Sesión -->
+    <!-- Mensaje de error para la contraseña -->
+    <TextView
+        android:id="@+id/tv_password_error"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Por favor, ingresa tu contraseña"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="12sp"
+        android:visibility="gone"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/et_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Botón de inicio de sesión -->
     <Button
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Iniciar Sesión"
         android:layout_marginTop="32dp"
-        app:layout_constraintTop_toBottomOf="@id/et_password"
+        app:layout_constraintTop_toBottomOf="@id/tv_password_error"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Botón para ir al registro -->
+    <Button
+        android:id="@+id/go_to_register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿No tienes cuenta? Regístrate"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/btn_login"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

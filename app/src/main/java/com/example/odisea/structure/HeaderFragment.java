@@ -1,4 +1,4 @@
-package com.example.odisea;
+package com.example.odisea.structure;
 
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.example.odisea.HomeFragment;
+import com.example.odisea.R;
 
 public class HeaderFragment extends Fragment {
 

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.odisea.GenericAdapter
 import com.example.odisea.databinding.ActivityDetailBinding
+import com.example.odisea.data.Lugar
 
 class DetailActivity : AppCompatActivity() {
 
@@ -17,32 +18,32 @@ class DetailActivity : AppCompatActivity() {
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Recuperar datos del Intent
-        val nombre = intent.getStringExtra("nombre") ?: "Sin nombre"
-        val ubicacion = intent.getStringExtra("ubicacion") ?: "Ubicación desconocida"
-        val calificacion = intent.getFloatExtra("calificacion", 0f)
-        val descripcion = intent.getStringExtra("descripcion") ?: "Sin descripción"
-        val imagenUrl = intent.getStringExtra("imagenUrl") ?: "https://via.placeholder.com/150"
-        val tipoEstablecimiento = intent.getStringExtra("tipoEstablecimiento") ?: "desconocido"
+        // Recuperar el objeto Lugar del Intent
+        val lugar = intent.getParcelableExtra<Lugar>("lugar")
+
+        if (lugar == null) {
+            finish()
+            return
+        }
 
         // Mostrar datos generales
-        Glide.with(this).load(imagenUrl).into(binding.hotelMainPicture)
-        binding.hotelName.text = nombre
-        binding.hotelLocation.text = ubicacion
-        binding.hotelRating.text = calificacion.toString()
-        binding.hotelDescription.text = descripcion
+        Glide.with(this).load(lugar.imagenUrl).into(binding.placeMainPicture)
+        binding.placeName.text = lugar.nombre
+        binding.placeLocation.text = lugar.ubicacion
+        binding.placeRating.text = lugar.calificacion.toString()
+        binding.placeDescription.text = lugar.descripcion
 
         // Configurar características específicas según el tipo de establecimiento
-        when (tipoEstablecimiento) {
-            "hotel" -> configurarHotel()
-            "spa" -> configurarSpa()
-            "restaurante" -> configurarRestaurante()
-            "pista" -> configurarPista()
-            else -> binding.typeSpecificLayout.visibility = View.GONE // Ocultar si no hay tipo válido
+        when (lugar.tipoEstablecimiento) {
+            "hotel" -> configurarHotel(lugar)
+            "spa" -> configurarSpa(lugar)
+            "restaurante" -> configurarRestaurante(lugar)
+            "pista" -> configurarPista(lugar)
+            else -> binding.typeSpecificLayout.visibility = View.GONE
         }
     }
 
-    private fun configurarHotel() {
+    private fun configurarHotel(lugar: Lugar) {
         binding.typeSpecificLayout.visibility = View.VISIBLE
         binding.typeTitle.text = "Normas del hotel"
 
@@ -52,7 +53,7 @@ class DetailActivity : AppCompatActivity() {
         binding.rvFeatures.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun configurarSpa() {
+    private fun configurarSpa(lugar: Lugar) {
         binding.typeSpecificLayout.visibility = View.VISIBLE
         binding.typeTitle.text = "Servicios del spa"
 
@@ -62,7 +63,7 @@ class DetailActivity : AppCompatActivity() {
         binding.rvFeatures.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun configurarRestaurante() {
+    private fun configurarRestaurante(lugar: Lugar) {
         binding.typeSpecificLayout.visibility = View.VISIBLE
         binding.typeTitle.text = "Detalles del restaurante"
 
@@ -72,7 +73,7 @@ class DetailActivity : AppCompatActivity() {
         binding.rvFeatures.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun configurarPista() {
+    private fun configurarPista(lugar: Lugar) {
         binding.typeSpecificLayout.visibility = View.VISIBLE
         binding.typeTitle.text = "Horarios de la pista"
 
