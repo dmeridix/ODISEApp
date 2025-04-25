@@ -54,11 +54,11 @@ interface ApiService {
     @GET("informacion_spa/{spa_id}")
     fun obtenerInformacionSpa(@Path("spa_id") spaId: Int): Call<SpaInfo>
 
-    // 13. Buscar lugares por categoría y término de búsqueda
-    @GET("search")
-    fun searchItems(
+    // 13. Buscar lugares por nombre y categoría
+    @GET("buscar")
+    fun buscarLugares(
         @Query("query") query: String,
-        @Query("category") category: String
+        @Query("categoria") categoria: String
     ): Call<List<Lugar>>
 
     // 14. Crear reserva de hotel
@@ -77,25 +77,18 @@ interface ApiService {
     @POST("reservas_spa/")
     fun crearReservaSpa(@Body reserva: ReservaSpa): Call<Void>
 
-    // 18. Endpoint para obtener el perfil de un socio
+    // 18. Obtener el perfil de un socio
     @GET("perfil/{socio_id}")
-    fun getUserProfile(@Path("socio_id") socioId: Int): Call<UserProfile>
+    fun obtenerPerfilSocio(@Path("socio_id") socioId: Int): Call<UserProfile>
 
-    // 20. Eliminar un socio
+    // 19. Eliminar un socio
     @DELETE("socios/{socio_id}")
     fun eliminarSocio(@Path("socio_id") socioId: Int): Call<Void>
 
-    // 21. Validar credenciales de inicio de sesión
+    // 20. Validar credenciales de inicio de sesión
     @POST("buscar_socio/")
-    fun buscarSocio(
+    fun validarCredenciales(
         @Query("email") email: String,
         @Query("contrasenya") contrasenya: String
     ): Call<Map<String, Any>>
-
-    // Endpoint para buscar lugares por nombre y categoría
-    @GET("buscar")
-    fun searchItems(
-        @Query("query") query: String,
-        @Query("categoria") categoria: String
-    ): Call<List<Lugar>>
 }
