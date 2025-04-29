@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.odisea.adapters.PopularPlacesAdapter
 import com.example.odisea.api.RetrofitClient
 import com.example.odisea.data.Lugar
+import com.example.odisea.utils.SharedPreferenceHelper
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,6 +27,7 @@ class HomeFragment : Fragment() {
     private lateinit var adapter: PopularPlacesAdapter
     private lateinit var welcomeText: TextView
     private lateinit var progressBar: ProgressBar
+    private lateinit var sharedPreferenceHelper: SharedPreferenceHelper
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +40,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Inicializar SharedPreferenceHelper
+        sharedPreferenceHelper = SharedPreferenceHelper(requireContext())
+
         // Vincular las vistas del diseño XML
         welcomeText = view.findViewById(R.id.text_welcome)
         progressBar = view.findViewById(R.id.progress_bar)
@@ -46,12 +51,12 @@ class HomeFragment : Fragment() {
         // Configurar el RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Obtener el nombre del usuario autenticado
+        // Obtener el nombre del usuario autenticado desde SharedPreferences
         val userName = getLoggedInUserName()
         welcomeText.text = "Hola, $userName"
 
         // Inicializar el adaptador vacío
-        adapter = PopularPlacesAdapter(null, requireContext())
+        adapter = PopularPlacesAdapter(emptyList(), requireContext())
         recyclerView.adapter = adapter
 
         // Mostrar ProgressBar mientras se cargan los datos
@@ -62,11 +67,11 @@ class HomeFragment : Fragment() {
     }
 
     /**
-     * Simula la obtención del nombre del usuario autenticado.
-     * Reemplaza esta lógica con la fuente real de datos (SharedPreferences, Firebase Auth, etc.).
+     * Obtiene el nombre del usuario autenticado desde SharedPreferences.
      */
     private fun getLoggedInUserName(): String {
-        return "Juan" // Cambia esto por la lógica real para obtener el nombre del usuario
+        // Recuperar el nombre del socio desde SharedPreferences
+        return sharedPreferenceHelper.getSocioNombre() ?: "Usuario"
     }
 
     /**
@@ -80,10 +85,8 @@ class HomeFragment : Fragment() {
                     progressBar.visibility = View.GONE // Ocultar ProgressBar
 
                     if (response.isSuccessful && response.body() != null) {
-                        val lugares = response.body()
-                        lugares?.let {
-                            adapter.updateData(it) // Actualizar el adaptador con los datos obtenidos
-                        }
+                        val lugares = response.body()!!
+                        adapter.updateData(lugares) // Actualizar el adaptador con los datos obtenidos
                     } else {
                         // Manejar respuesta no exitosa
                         Toast.makeText(

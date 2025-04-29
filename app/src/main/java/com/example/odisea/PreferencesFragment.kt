@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -26,6 +27,18 @@ class PreferencesFragment : Fragment() {
     private lateinit var sharedPreferenceHelper: SharedPreferenceHelper
     private var socioId: Int = -1 // ID del socio (inicialmente -1 si no hay socio logueado)
 
+    // Referencias a las vistas
+    private lateinit var tvProfileName: TextView
+    private lateinit var tvProfilePhone: TextView
+    private lateinit var tvProfileEmail: TextView
+    private lateinit var tvProfileDni: TextView
+    private lateinit var tvReservationsHotels: TextView
+    private lateinit var tvReservationsRestaurants: TextView
+    private lateinit var tvReservationsSpas: TextView
+    private lateinit var tvReservationsPistas: TextView
+    private lateinit var btnUnsubscribe: Button
+    private lateinit var btnCancelReservation: Button
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,8 +53,20 @@ class PreferencesFragment : Fragment() {
         sharedPreferenceHelper = SharedPreferenceHelper(requireContext())
         socioId = sharedPreferenceHelper.getSocioId()
 
+        // Vincular las vistas
+        tvProfileName = view.findViewById(R.id.tv_profile_name)
+        tvProfilePhone = view.findViewById(R.id.tv_profile_phone)
+        tvProfileEmail = view.findViewById(R.id.tv_profile_email)
+        tvProfileDni = view.findViewById(R.id.tv_profile_dni)
+        tvReservationsHotels = view.findViewById(R.id.tv_reservations_hotels)
+        tvReservationsRestaurants = view.findViewById(R.id.tv_reservations_restaurants)
+        tvReservationsSpas = view.findViewById(R.id.tv_reservations_spas)
+        tvReservationsPistas = view.findViewById(R.id.tv_reservations_pistas)
+        btnUnsubscribe = view.findViewById(R.id.btn_unsubscribe)
+        btnCancelReservation = view.findViewById(R.id.btn_cancel_reservation)
+
+        // Verificar si hay un socio logueado
         if (socioId == -1) {
-            // Si no hay socio logueado, mostrar un mensaje o redirigir al inicio de sesión
             Toast.makeText(requireContext(), "No hay un socio logueado", Toast.LENGTH_SHORT).show()
             return
         }
@@ -49,171 +74,198 @@ class PreferencesFragment : Fragment() {
         // Cargar datos del usuario y sus reservas
         loadUserProfile()
         loadUserReservations()
-    }
 
-    private fun loadUserProfile() {
-        val apiService = RetrofitClient.apiService
-        apiService.getUserProfile(socioId).enqueue(object : Callback<UserProfile> {
-            override fun onResponse(call: Call<UserProfile>, response: Response<UserProfile>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val userProfile = response.body()
-                    updateProfileSection(userProfile!!)
-                } else {
-                    // Manejar respuesta no exitosa
-                    Toast.makeText(requireContext(), "Error al cargar el perfil", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<UserProfile>, t: Throwable) {
-                // Mostrar mensaje de error al usuario
-                Toast.makeText(requireContext(), "Fallo al conectar con el servidor", Toast.LENGTH_SHORT).show()
-                t.printStackTrace()
-            }
-        })
-    }
-
-    private fun loadUserReservations() {
-        lifecycleScope.launch {
-            // Cargar reservas de hoteles
-            loadHotelReservations()
-            // Cargar reservas de restaurantes
-            loadRestaurantReservations()
-            // Cargar reservas de spas
-            loadSpaReservations()
-            // Cargar reservas de pistas
-            loadPistaReservations()
+        // Configurar el botón "Darse de baja"
+        btnUnsubscribe.setOnClickListener {
+            unsubscribeUser()
         }
+
+        // Configurar el botón "Cancelar Reserva"
+        btnCancelReservation.setOnClickListener {
+            cancelReservation()
+        }
+    }
+
+    /**
+     * Carga el perfil del socio desde la API.
+     */
+    private fun loadUserProfile() {
+        lifecycleScope.launch {
+            RetrofitClient.apiService.obtenerPerfilSocio(socioId).enqueue(object : Callback<UserProfile> {
+                override fun onResponse(call: Call<UserProfile>, response: Response<UserProfile>) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val userProfile = response.body()!!
+                        tvProfileName.text = "Nombre: ${userProfile.nombre}"
+                        tvProfilePhone.text = "Teléfono: ${userProfile.telefono}"
+                        tvProfileEmail.text = "Email: ${userProfile.email}"
+                        tvProfileDni.text = "DNI: ${userProfile.dni}"
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error al cargar el perfil del usuario",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<UserProfile>, t: Throwable) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Fallo al conectar con el servidor",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    t.printStackTrace()
+                }
+            })
+        }
+    }
+
+    /**
+     * Carga las reservas del socio desde la API.
+     */
+    private fun loadUserReservations() {
+        loadHotelReservations()
+        loadRestaurantReservations()
+        loadSpaReservations()
+        loadPistaReservations()
     }
 
     private fun loadHotelReservations() {
-        val apiService = RetrofitClient.apiService
-        apiService.obtenerReservasHotel(socioId).enqueue(object : Callback<List<ReservaHotel>> {
-            override fun onResponse(call: Call<List<ReservaHotel>>, response: Response<List<ReservaHotel>>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val hotelReservations = response.body()
-                    updateHotelReservations(hotelReservations!!)
-                } else {
-                    // Manejar respuesta no exitosa
-                    Toast.makeText(requireContext(), "Error al cargar las reservas de hoteles", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            RetrofitClient.apiService.obtenerReservasHotel(socioId).enqueue(object : Callback<List<ReservaHotel>> {
+                override fun onResponse(call: Call<List<ReservaHotel>>, response: Response<List<ReservaHotel>>) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val reservas = response.body()!!
+                        tvReservationsHotels.text = if (reservas.isNotEmpty()) {
+                            "Reservas Hoteles: ${reservas.size}"
+                        } else {
+                            "No hay reservas de hoteles"
+                        }
+                    } else {
+                        tvReservationsHotels.text = "Error al cargar reservas de hoteles"
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<List<ReservaHotel>>, t: Throwable) {
-                // Mostrar mensaje de error al usuario
-                Toast.makeText(requireContext(), "Fallo al conectar con el servidor", Toast.LENGTH_SHORT).show()
-                t.printStackTrace()
-            }
-        })
+                override fun onFailure(call: Call<List<ReservaHotel>>, t: Throwable) {
+                    tvReservationsHotels.text = "Fallo al cargar reservas de hoteles"
+                    t.printStackTrace()
+                }
+            })
+        }
     }
 
     private fun loadRestaurantReservations() {
-        val apiService = RetrofitClient.apiService
-        apiService.obtenerReservasRestaurante(socioId).enqueue(object : Callback<List<ReservaRestaurante>> {
-            override fun onResponse(call: Call<List<ReservaRestaurante>>, response: Response<List<ReservaRestaurante>>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val restaurantReservations = response.body()
-                    updateRestaurantReservations(restaurantReservations!!)
-                } else {
-                    // Manejar respuesta no exitosa
-                    Toast.makeText(requireContext(), "Error al cargar las reservas de restaurantes", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            RetrofitClient.apiService.obtenerReservasRestaurante(socioId).enqueue(object : Callback<List<ReservaRestaurante>> {
+                override fun onResponse(call: Call<List<ReservaRestaurante>>, response: Response<List<ReservaRestaurante>>) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val reservas = response.body()!!
+                        tvReservationsRestaurants.text = if (reservas.isNotEmpty()) {
+                            "Reservas Restaurantes: ${reservas.size}"
+                        } else {
+                            "No hay reservas de restaurantes"
+                        }
+                    } else {
+                        tvReservationsRestaurants.text = "Error al cargar reservas de restaurantes"
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<List<ReservaRestaurante>>, t: Throwable) {
-                // Mostrar mensaje de error al usuario
-                Toast.makeText(requireContext(), "Fallo al conectar con el servidor", Toast.LENGTH_SHORT).show()
-                t.printStackTrace()
-            }
-        })
+                override fun onFailure(call: Call<List<ReservaRestaurante>>, t: Throwable) {
+                    tvReservationsRestaurants.text = "Fallo al cargar reservas de restaurantes"
+                    t.printStackTrace()
+                }
+            })
+        }
     }
 
     private fun loadSpaReservations() {
-        val apiService = RetrofitClient.apiService
-        apiService.obtenerReservasSpa(socioId).enqueue(object : Callback<List<ReservaSpa>> {
-            override fun onResponse(call: Call<List<ReservaSpa>>, response: Response<List<ReservaSpa>>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val spaReservations = response.body()
-                    updateSpaReservations(spaReservations!!)
-                } else {
-                    // Manejar respuesta no exitosa
-                    Toast.makeText(requireContext(), "Error al cargar las reservas de spas", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            RetrofitClient.apiService.obtenerReservasSpa(socioId).enqueue(object : Callback<List<ReservaSpa>> {
+                override fun onResponse(call: Call<List<ReservaSpa>>, response: Response<List<ReservaSpa>>) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val reservas = response.body()!!
+                        tvReservationsSpas.text = if (reservas.isNotEmpty()) {
+                            "Reservas Spas: ${reservas.size}"
+                        } else {
+                            "No hay reservas de spas"
+                        }
+                    } else {
+                        tvReservationsSpas.text = "Error al cargar reservas de spas"
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<List<ReservaSpa>>, t: Throwable) {
-                // Mostrar mensaje de error al usuario
-                Toast.makeText(requireContext(), "Fallo al conectar con el servidor", Toast.LENGTH_SHORT).show()
-                t.printStackTrace()
-            }
-        })
+                override fun onFailure(call: Call<List<ReservaSpa>>, t: Throwable) {
+                    tvReservationsSpas.text = "Fallo al cargar reservas de spas"
+                    t.printStackTrace()
+                }
+            })
+        }
     }
 
     private fun loadPistaReservations() {
-        val apiService = RetrofitClient.apiService
-        apiService.obtenerReservasPista(socioId).enqueue(object : Callback<List<ReservaPista>> {
-            override fun onResponse(call: Call<List<ReservaPista>>, response: Response<List<ReservaPista>>) {
-                if (response.isSuccessful && response.body() != null) {
-                    val pistaReservations = response.body()
-                    updatePistaReservations(pistaReservations!!)
-                } else {
-                    // Manejar respuesta no exitosa
-                    Toast.makeText(requireContext(), "Error al cargar las reservas de pistas", Toast.LENGTH_SHORT).show()
+        lifecycleScope.launch {
+            RetrofitClient.apiService.obtenerReservasPista(socioId).enqueue(object : Callback<List<ReservaPista>> {
+                override fun onResponse(call: Call<List<ReservaPista>>, response: Response<List<ReservaPista>>) {
+                    if (response.isSuccessful && response.body() != null) {
+                        val reservas = response.body()!!
+                        tvReservationsPistas.text = if (reservas.isNotEmpty()) {
+                            "Reservas Pistas: ${reservas.size}"
+                        } else {
+                            "No hay reservas de pistas"
+                        }
+                    } else {
+                        tvReservationsPistas.text = "Error al cargar reservas de pistas"
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<List<ReservaPista>>, t: Throwable) {
-                // Mostrar mensaje de error al usuario
-                Toast.makeText(requireContext(), "Fallo al conectar con el servidor", Toast.LENGTH_SHORT).show()
-                t.printStackTrace()
-            }
-        })
-    }
-
-    private fun updateProfileSection(userProfile: UserProfile) {
-        // Actualizar sección de perfil con los datos obtenidos
-        requireView().findViewById<TextView>(R.id.tv_profile_name).text = "Nombre: ${userProfile.nombre}"
-        requireView().findViewById<TextView>(R.id.tv_profile_phone).text = "Teléfono: ${userProfile.telefono ?: "No disponible"}"
-        requireView().findViewById<TextView>(R.id.tv_profile_email).text = "Email: ${userProfile.email}"
-        requireView().findViewById<TextView>(R.id.tv_profile_dni).text = "DNI: ${userProfile.dni}"
-    }
-
-    private fun updateHotelReservations(reservations: List<ReservaHotel>) {
-        val tvReservationsHotels = requireView().findViewById<TextView>(R.id.tv_reservations_hotels)
-        if (reservations.isNotEmpty()) {
-            val formattedReservations = reservations.joinToString("\n• ") { it.fechaEntrada }
-            tvReservationsHotels.text = "• $formattedReservations"
-        } else {
-            tvReservationsHotels.text = "No hay reservas de hoteles"
+                override fun onFailure(call: Call<List<ReservaPista>>, t: Throwable) {
+                    tvReservationsPistas.text = "Fallo al cargar reservas de pistas"
+                    t.printStackTrace()
+                }
+            })
         }
     }
 
-    private fun updateRestaurantReservations(reservations: List<ReservaRestaurante>) {
-        val tvReservationsRestaurants = requireView().findViewById<TextView>(R.id.tv_reservations_restaurants)
-        if (reservations.isNotEmpty()) {
-            val formattedReservations = reservations.joinToString("\n• ") { "${it.fecha} - ${it.hora}" }
-            tvReservationsRestaurants.text = "• $formattedReservations"
-        } else {
-            tvReservationsRestaurants.text = "No hay reservas de restaurantes"
+    /**
+     * Elimina al usuario (darse de baja).
+     */
+    private fun unsubscribeUser() {
+        lifecycleScope.launch {
+            RetrofitClient.apiService.eliminarSocio(socioId).enqueue(object : Callback<Void> {
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Usuario eliminado correctamente",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        sharedPreferenceHelper.clearSocioData()
+                        requireActivity().finish() // Cerrar la actividad actual
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error al eliminar el usuario",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Fallo al conectar con el servidor",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    t.printStackTrace()
+                }
+            })
         }
     }
 
-    private fun updateSpaReservations(reservations: List<ReservaSpa>) {
-        val tvReservationsSpas = requireView().findViewById<TextView>(R.id.tv_reservations_spas)
-        if (reservations.isNotEmpty()) {
-            val formattedReservations = reservations.joinToString("\n• ") { "${it.fecha} - ${it.hora}" }
-            tvReservationsSpas.text = "• $formattedReservations"
-        } else {
-            tvReservationsSpas.text = "No hay reservas de spas"
-        }
-    }
-
-    private fun updatePistaReservations(reservations: List<ReservaPista>) {
-        val tvReservationsPistas = requireView().findViewById<TextView>(R.id.tv_reservations_pistas)
-        if (reservations.isNotEmpty()) {
-            val formattedReservations = reservations.joinToString("\n• ") { it.fecha }
-            tvReservationsPistas.text = "• $formattedReservations"
-        } else {
-            tvReservationsPistas.text = "No hay reservas de pistas"
-        }
+    /**
+     * Cancela una reserva seleccionada.
+     */
+    private fun cancelReservation() {
+        Toast.makeText(requireContext(), "Funcionalidad no implementada", Toast.LENGTH_SHORT).show()
     }
 }
