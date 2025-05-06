@@ -51,17 +51,11 @@ class PopularPlacesAdapter(
                 placeName1.text = lugar.nombre
 
                 // Configurar el listener de clics para el primer lugar
-                itemView.setOnClickListener {
-                    val intent = Intent(context, DetailActivity::class.java).apply {
-                        putExtra("id", lugar.id)
-                        putExtra("nombre", lugar.nombre)
-                        putExtra("descripcion", lugar.descripcion)
-                        putExtra("ubicacion", lugar.ubicacion)
-                        putExtra("calificacion", lugar.calificacion)
-                        putExtra("imagenUrl", lugar.imagenUrl)
-                        putExtra("tipoEstablecimiento", lugar.tipoEstablecimiento)
-                    }
-                    context.startActivity(intent)
+                placeImage1.setOnClickListener {
+                    openDetailActivity(lugar)
+                }
+                placeName1.setOnClickListener {
+                    openDetailActivity(lugar)
                 }
             } else {
                 // Limpiar las vistas si no hay datos
@@ -76,22 +70,28 @@ class PopularPlacesAdapter(
                 placeName2.text = lugar.nombre
 
                 // Configurar el listener de clics para el segundo lugar
-                itemView.setOnClickListener {
-                    val intent = Intent(context, DetailActivity::class.java).apply {
-                        putExtra("id", lugar.id)
-                        putExtra("nombre", lugar.nombre)
-                        putExtra("descripcion", lugar.descripcion)
-                        putExtra("ubicacion", lugar.ubicacion)
-                        putExtra("calificacion", lugar.calificacion)
-                        putExtra("imagenUrl", lugar.imagenUrl)
-                        putExtra("tipoEstablecimiento", lugar.tipoEstablecimiento)
-                    }
-                    context.startActivity(intent)
+                placeImage2.setOnClickListener {
+                    openDetailActivity(lugar)
+                }
+                placeName2.setOnClickListener {
+                    openDetailActivity(lugar)
                 }
             } else {
                 // Limpiar las vistas si no hay datos
                 placeImage2.setImageDrawable(null)
                 placeName2.text = ""
+            }
+        }
+
+        private fun openDetailActivity(lugar: Lugar) {
+            val intent = Intent(context, DetailActivity::class.java).apply {
+                putExtra("id", lugar.id)
+                putExtra("nombre", lugar.nombre)
+                putExtra("descripcion", lugar.descripcion)
+                putExtra("ubicacion", lugar.ubicacion)
+                putExtra("valoracion", lugar.valoracion)
+                putExtra("imagenUrl", lugar.imagenUrl)
+                putExtra("tipoEstablecimiento", lugar.tipoEstablecimiento)
             }
         }
     }

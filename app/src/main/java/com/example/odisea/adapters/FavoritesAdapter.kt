@@ -23,28 +23,19 @@ class FavoritesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // Agrupar los lugares en pares
-        val lugar1 = lugares.getOrNull(position * 2)
-        val lugar2 = lugares.getOrNull(position * 2 + 1)
+        // Obtener el lugar correspondiente a la posición actual
+        val lugar = lugares.getOrNull(position)
 
-        // Vincular el primer lugar (si existe)
-        if (lugar1 != null) {
-            holder.bindFirstPlace(lugar1)
+        if (lugar != null) {
+            holder.bindPlace(lugar)
         } else {
-            holder.hideFirstPlace()
-        }
-
-        // Vincular el segundo lugar (si existe)
-        if (lugar2 != null) {
-            holder.bindSecondPlace(lugar2)
-        } else {
-            holder.hideSecondPlace()
+            holder.hidePlace()
         }
     }
 
     override fun getItemCount(): Int {
-        // Dividir la lista en grupos de 2 elementos
-        return (lugares.size + 1) / 2
+        // Devolver el tamaño total de la lista de lugares
+        return lugares.size
     }
 
     fun updateData(newLugares: List<Lugar>) {
@@ -54,48 +45,38 @@ class FavoritesAdapter(
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        // Referencias a las vistas del primer lugar
-        private val placeImage1: ImageView = itemView.findViewById(R.id.place_image)
-        private val placeName1: TextView = itemView.findViewById(R.id.place_name)
-
-        // Referencias a las vistas del segundo lugar
-        private val placeImage2: ImageView = itemView.findViewById(R.id.place_image2)
-        private val placeName2: TextView = itemView.findViewById(R.id.place_name2)
+        // Referencias a las vistas del lugar
+        private val placeImage: ImageView = itemView.findViewById(R.id.place_image)
+        private val placeName: TextView = itemView.findViewById(R.id.nameTextView)
+        private val placeLocation: TextView = itemView.findViewById(R.id.locationTextView)
+        private val placeRating: TextView = itemView.findViewById(R.id.rating)
 
         /**
-         * Vincula los datos del primer lugar.
+         * Vincula los datos del lugar.
          */
-        fun bindFirstPlace(lugar: Lugar) {
-            Glide.with(context).load(lugar.imagenUrl).into(placeImage1)
-            placeName1.text = lugar.nombre
-            placeImage1.visibility = View.VISIBLE
-            placeName1.visibility = View.VISIBLE
+        fun bindPlace(lugar: Lugar) {
+            Glide.with(context)
+                .load(lugar.imagenUrl)
+                .into(placeImage)
+
+            placeName.text = lugar.nombre
+            placeLocation.text = lugar.ubicacion ?: "Ubicación no disponible"
+            placeRating.text = lugar.valoracion?.toString() ?: "Sin calificación"
+
+            placeImage.visibility = View.VISIBLE
+            placeName.visibility = View.VISIBLE
+            placeLocation.visibility = View.VISIBLE
+            placeRating.visibility = View.VISIBLE
         }
 
         /**
-         * Vincula los datos del segundo lugar.
+         * Oculta el lugar si no hay datos disponibles.
          */
-        fun bindSecondPlace(lugar: Lugar) {
-            Glide.with(context).load(lugar.imagenUrl).into(placeImage2)
-            placeName2.text = lugar.nombre
-            placeImage2.visibility = View.VISIBLE
-            placeName2.visibility = View.VISIBLE
-        }
-
-        /**
-         * Oculta el primer lugar si no hay datos disponibles.
-         */
-        fun hideFirstPlace() {
-            placeImage1.visibility = View.GONE
-            placeName1.visibility = View.GONE
-        }
-
-        /**
-         * Oculta el segundo lugar si no hay datos disponibles.
-         */
-        fun hideSecondPlace() {
-            placeImage2.visibility = View.GONE
-            placeName2.visibility = View.GONE
+        fun hidePlace() {
+            placeImage.visibility = View.GONE
+            placeName.visibility = View.GONE
+            placeLocation.visibility = View.GONE
+            placeRating.visibility = View.GONE
         }
     }
 }

@@ -10,5 +10,6 @@ data class Lugar(
     val ubicacion: String?,
     val valoracion: Float?,
     val descripcion: String?,
-    val tipo_establecimiento: String
+    val tipoEstablecimiento: String,
+    val imagenUrl: String? = null
 ) : Parcelable

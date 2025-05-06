@@ -5,7 +5,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.odisea.GenericAdapter
 import com.example.odisea.databinding.ActivityDetailBinding
 import com.example.odisea.data.Lugar
 
@@ -27,11 +26,15 @@ class DetailActivity : AppCompatActivity() {
         }
 
         // Mostrar datos generales
-        Glide.with(this).load(lugar.imagenUrl).into(binding.placeMainPicture)
+        Glide.with(this)
+            .load(lugar.imagenUrl)
+            .centerCrop()
+            .into(binding.placeMainPicture)
+
         binding.placeName.text = lugar.nombre
-        binding.placeLocation.text = lugar.ubicacion
-        binding.placeRating.text = lugar.calificacion.toString()
-        binding.placeDescription.text = lugar.descripcion
+        binding.placeLocation.text = lugar.ubicacion ?: "Ubicación no disponible"
+        binding.rating.text = if (lugar.valoracion != null) "${lugar.valoracion} ⭐" else "Sin calificación"
+        binding.placeDescription.text = lugar.descripcion ?: "Sin descripción"
 
         // Configurar características específicas según el tipo de establecimiento
         when (lugar.tipoEstablecimiento) {
@@ -48,9 +51,7 @@ class DetailActivity : AppCompatActivity() {
         binding.typeTitle.text = "Normas del hotel"
 
         val normas = listOf("No fumar", "Check-in a las 15:00", "Mascotas permitidas")
-        val adapter = GenericAdapter(normas)
-        binding.rvFeatures.adapter = adapter
-        binding.rvFeatures.layoutManager = LinearLayoutManager(this)
+        configurarRecyclerView(normas)
     }
 
     private fun configurarSpa(lugar: Lugar) {
@@ -58,9 +59,7 @@ class DetailActivity : AppCompatActivity() {
         binding.typeTitle.text = "Servicios del spa"
 
         val servicios = listOf("Masajes", "Tratamientos faciales", "Sauna")
-        val adapter = GenericAdapter(servicios)
-        binding.rvFeatures.adapter = adapter
-        binding.rvFeatures.layoutManager = LinearLayoutManager(this)
+        configurarRecyclerView(servicios)
     }
 
     private fun configurarRestaurante(lugar: Lugar) {
@@ -68,9 +67,7 @@ class DetailActivity : AppCompatActivity() {
         binding.typeTitle.text = "Detalles del restaurante"
 
         val detalles = listOf("Cocina italiana", "Abierto 24/7", "Ambiente romántico")
-        val adapter = GenericAdapter(detalles)
-        binding.rvFeatures.adapter = adapter
-        binding.rvFeatures.layoutManager = LinearLayoutManager(this)
+        configurarRecyclerView(detalles)
     }
 
     private fun configurarPista(lugar: Lugar) {
@@ -78,7 +75,14 @@ class DetailActivity : AppCompatActivity() {
         binding.typeTitle.text = "Horarios de la pista"
 
         val horarios = listOf("08:00 - 12:00", "14:00 - 18:00", "20:00 - 23:00")
-        val adapter = GenericAdapter(horarios)
+        configurarRecyclerView(horarios)
+    }
+
+    /**
+     * Configura el RecyclerView con los datos proporcionados.
+     */
+    private fun configurarRecyclerView(items: List<String>) {
+        val adapter = GenericAdapter(items)
         binding.rvFeatures.adapter = adapter
         binding.rvFeatures.layoutManager = LinearLayoutManager(this)
     }
