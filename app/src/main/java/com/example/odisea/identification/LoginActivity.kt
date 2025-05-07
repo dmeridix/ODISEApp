@@ -50,7 +50,8 @@ class LoginActivity : AppCompatActivity() {
             RetrofitClient.apiService.validarCredenciales(email, password).enqueue(object : Callback<Map<String, Any>> {
                 override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
                     if (response.isSuccessful && response.body() != null) {
-                        val socioId = response.body()?.get("socio_id") as Int
+                        val socioId = (response.body()?.get("socio_id") as? Double)?.toInt()
+                            ?: throw IllegalArgumentException("El ID del socio no es válido")
                         val socioNombre = response.body()?.get("nombre") as? String ?: "Usuario"
 
                         // Guardar el ID y el nombre del socio en SharedPreferences
@@ -76,7 +77,7 @@ class LoginActivity : AppCompatActivity() {
         // Botón para abrir la página de registro en el navegador
         goToRegisterButton.setOnClickListener {
             // URL de la página de registro
-            val registrationUrl = "https://www.ejemplo.com/register" // Cambia esta URL por la real
+            val registrationUrl = "https://odiseaprojecte.duckdns.org/" // Cambia esta URL por la real
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(registrationUrl))
             startActivity(intent)
         }
