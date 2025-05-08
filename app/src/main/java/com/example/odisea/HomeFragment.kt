@@ -55,8 +55,8 @@ class HomeFragment : Fragment() {
         val userName = getLoggedInUserName()
         welcomeText.text = "Hola, $userName"
 
-        // Inicializar el adaptador vacío
-        adapter = PopularPlacesAdapter(emptyList(), requireContext())
+        // Inicializar el adaptador vacío y pasar el FragmentManager
+        adapter = PopularPlacesAdapter(emptyList(), requireContext(), childFragmentManager)
         recyclerView.adapter = adapter
 
         // Mostrar ProgressBar mientras se cargan los datos

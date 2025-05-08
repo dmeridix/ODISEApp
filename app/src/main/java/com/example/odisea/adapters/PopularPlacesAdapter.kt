@@ -1,21 +1,23 @@
 package com.example.odisea.adapters
 
 import android.content.Context
-import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.odisea.DetailActivity
+import com.example.odisea.DetailFragment
 import com.example.odisea.R
 import com.example.odisea.data.Lugar
 
 class PopularPlacesAdapter(
     private var lugares: List<Lugar>?,
-    private val context: Context
+    private val context: Context,
+    private val fragmentManager: FragmentManager // Agregamos el FragmentManager para manejar la navegación
 ) : RecyclerView.Adapter<PopularPlacesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -63,10 +65,10 @@ class PopularPlacesAdapter(
 
                 // Configurar el listener de clics para abrir el detalle
                 placeImage1.setOnClickListener {
-                    openDetailActivity(lugar)
+                    openDetailFragment(lugar)
                 }
                 placeName1.setOnClickListener {
-                    openDetailActivity(lugar)
+                    openDetailFragment(lugar)
                 }
 
                 // Asegurarse de que las vistas sean visibles
@@ -93,10 +95,10 @@ class PopularPlacesAdapter(
 
                 // Configurar el listener de clics para abrir el detalle
                 placeImage2.setOnClickListener {
-                    openDetailActivity(lugar)
+                    openDetailFragment(lugar)
                 }
                 placeName2.setOnClickListener {
-                    openDetailActivity(lugar)
+                    openDetailFragment(lugar)
                 }
 
                 // Asegurarse de que las vistas sean visibles
@@ -111,18 +113,19 @@ class PopularPlacesAdapter(
             }
         }
 
-        private fun openDetailActivity(lugar: Lugar) {
-            // Crear un Intent para abrir la actividad de detalles
-            val intent = Intent(context, DetailActivity::class.java).apply {
-                putExtra("id", lugar.id)
-                putExtra("nombre", lugar.nombre)
-                putExtra("descripcion", lugar.descripcion)
-                putExtra("ubicacion", lugar.ubicacion)
-                putExtra("valoracion", lugar.valoracion)
-                putExtra("imagenUrl", lugar.imagenUrl)
-                putExtra("tipoEstablecimiento", lugar.tipoEstablecimiento)
+        private fun openDetailFragment(lugar: Lugar) {
+            // Crear una instancia del fragmento de detalles
+            val fragment = DetailFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable("lugar", lugar) // Pasar el objeto Lugar como argumento
+                }
             }
-            context.startActivity(intent)
+
+            // Reemplazar el fragmento actual con el nuevo fragmento
+            fragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, fragment) // Asegúrate de tener un contenedor con este ID en tu layout principal
+                .addToBackStack(null) // Agregar la transacción al back stack
+                .commit()
         }
     }
 }

@@ -56,8 +56,8 @@ class SavedFragment : Fragment() {
         // Mostrar ProgressBar mientras se cargan los datos
         progressBar.visibility = View.VISIBLE
 
-        // Inicializar el adaptador vacío
-        adapter = PopularPlacesAdapter(emptyList(), requireContext())
+        // Inicializar el adaptador vacío y pasar el FragmentManager
+        adapter = PopularPlacesAdapter(emptyList(), requireContext(), childFragmentManager)
         recyclerView.adapter = adapter
 
         // Cargar datos desde la API usando coroutines

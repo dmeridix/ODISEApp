@@ -1,27 +1,38 @@
 package com.example.odisea
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.odisea.databinding.ActivityDetailBinding
+import com.example.odisea.databinding.FragmentDetailBinding
 import com.example.odisea.data.Lugar
 
-class DetailActivity : AppCompatActivity() {
+class DetailFragment : Fragment() {
 
-    private lateinit var binding: ActivityDetailBinding
+    private var _binding: FragmentDetailBinding? = null
+    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityDetailBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflar el diseño del fragmento
+        _binding = FragmentDetailBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        // Recuperar el objeto Lugar del Intent
-        val lugar = intent.getParcelableExtra<Lugar>("lugar")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Recuperar el objeto Lugar del Bundle
+        val lugar = arguments?.getParcelable<Lugar>("lugar")
 
         if (lugar == null) {
-            finish()
+            requireActivity().onBackPressed() // Volver atrás si no hay datos
             return
         }
 
@@ -115,6 +126,11 @@ class DetailActivity : AppCompatActivity() {
     private fun configurarRecyclerView(items: List<String>) {
         val adapter = GenericAdapter(items)
         binding.rvFeatures.adapter = adapter
-        binding.rvFeatures.layoutManager = LinearLayoutManager(this)
+        binding.rvFeatures.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
