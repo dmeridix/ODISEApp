@@ -19,19 +19,25 @@ class PopularPlacesAdapter(
 ) : RecyclerView.Adapter<PopularPlacesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        // Inflar el diseño del ítem que contiene dos lugares (place_image, place_name, place_image2, place_name2)
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_popular_place, parent, false)
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        // Obtener los dos lugares correspondientes a esta posición
         val lugar1 = lugares?.getOrNull(position * 2) // Primer lugar
         val lugar2 = lugares?.getOrNull(position * 2 + 1) // Segundo lugar
 
+        // Vincular los datos a las vistas
         holder.bindPlace1(lugar1)
         holder.bindPlace2(lugar2)
     }
 
-    override fun getItemCount(): Int = if (lugares == null) 0 else (lugares!!.size + 1) / 2
+    override fun getItemCount(): Int {
+        // Dividir la lista en grupos de 2 elementos
+        return if (lugares == null) 0 else (lugares!!.size + 1) / 2
+    }
 
     // Método para actualizar los datos del adaptador
     fun updateData(newLugares: List<Lugar>) {
@@ -47,43 +53,66 @@ class PopularPlacesAdapter(
 
         fun bindPlace1(lugar: Lugar?) {
             if (lugar != null) {
-                Glide.with(context).load(lugar.imagenUrl).into(placeImage1)
+                // Cargar la imagen usando Glide
+                Glide.with(context)
+                    .load(lugar.imagenUrl)
+                    .into(placeImage1)
+
+                // Configurar el nombre del lugar
                 placeName1.text = lugar.nombre
 
-                // Configurar el listener de clics para el primer lugar
+                // Configurar el listener de clics para abrir el detalle
                 placeImage1.setOnClickListener {
                     openDetailActivity(lugar)
                 }
                 placeName1.setOnClickListener {
                     openDetailActivity(lugar)
                 }
+
+                // Asegurarse de que las vistas sean visibles
+                placeImage1.visibility = View.VISIBLE
+                placeName1.visibility = View.VISIBLE
             } else {
                 // Limpiar las vistas si no hay datos
                 placeImage1.setImageDrawable(null)
                 placeName1.text = ""
+                placeImage1.visibility = View.GONE
+                placeName1.visibility = View.GONE
             }
         }
 
         fun bindPlace2(lugar: Lugar?) {
             if (lugar != null) {
-                Glide.with(context).load(lugar.imagenUrl).into(placeImage2)
+                // Cargar la imagen usando Glide
+                Glide.with(context)
+                    .load(lugar.imagenUrl)
+                    .into(placeImage2)
+
+                // Configurar el nombre del lugar
                 placeName2.text = lugar.nombre
 
-                // Configurar el listener de clics para el segundo lugar
+                // Configurar el listener de clics para abrir el detalle
                 placeImage2.setOnClickListener {
                     openDetailActivity(lugar)
                 }
                 placeName2.setOnClickListener {
                     openDetailActivity(lugar)
                 }
+
+                // Asegurarse de que las vistas sean visibles
+                placeImage2.visibility = View.VISIBLE
+                placeName2.visibility = View.VISIBLE
             } else {
                 // Limpiar las vistas si no hay datos
                 placeImage2.setImageDrawable(null)
                 placeName2.text = ""
+                placeImage2.visibility = View.GONE
+                placeName2.visibility = View.GONE
             }
         }
 
         private fun openDetailActivity(lugar: Lugar) {
+            // Crear un Intent para abrir la actividad de detalles
             val intent = Intent(context, DetailActivity::class.java).apply {
                 putExtra("id", lugar.id)
                 putExtra("nombre", lugar.nombre)
@@ -93,6 +122,7 @@ class PopularPlacesAdapter(
                 putExtra("imagenUrl", lugar.imagenUrl)
                 putExtra("tipoEstablecimiento", lugar.tipoEstablecimiento)
             }
+            context.startActivity(intent)
         }
     }
 }

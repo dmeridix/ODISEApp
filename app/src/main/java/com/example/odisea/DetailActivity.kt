@@ -42,39 +42,70 @@ class DetailActivity : AppCompatActivity() {
             "spa" -> configurarSpa(lugar)
             "restaurante" -> configurarRestaurante(lugar)
             "pista" -> configurarPista(lugar)
-            else -> binding.typeSpecificLayout.visibility = View.GONE
+            else -> {
+                binding.typeSpecificLayout.visibility = View.GONE
+                binding.typeTitle.text = "Detalles no disponibles"
+            }
         }
     }
 
+    /**
+     * Configura los detalles específicos para un hotel.
+     */
     private fun configurarHotel(lugar: Lugar) {
         binding.typeSpecificLayout.visibility = View.VISIBLE
         binding.typeTitle.text = "Normas del hotel"
 
-        val normas = listOf("No fumar", "Check-in a las 15:00", "Mascotas permitidas")
+        val normas = listOf(
+            "No fumar",
+            "Check-in a las 15:00",
+            "Mascotas permitidas"
+        )
         configurarRecyclerView(normas)
     }
 
+    /**
+     * Configura los detalles específicos para un spa.
+     */
     private fun configurarSpa(lugar: Lugar) {
         binding.typeSpecificLayout.visibility = View.VISIBLE
         binding.typeTitle.text = "Servicios del spa"
 
-        val servicios = listOf("Masajes", "Tratamientos faciales", "Sauna")
+        val servicios = listOf(
+            "Masajes",
+            "Tratamientos faciales",
+            "Sauna"
+        )
         configurarRecyclerView(servicios)
     }
 
+    /**
+     * Configura los detalles específicos para un restaurante.
+     */
     private fun configurarRestaurante(lugar: Lugar) {
         binding.typeSpecificLayout.visibility = View.VISIBLE
         binding.typeTitle.text = "Detalles del restaurante"
 
-        val detalles = listOf("Cocina italiana", "Abierto 24/7", "Ambiente romántico")
+        val detalles = listOf(
+            "Cocina italiana",
+            "Abierto 24/7",
+            "Ambiente romántico"
+        )
         configurarRecyclerView(detalles)
     }
 
+    /**
+     * Configura los detalles específicos para una pista.
+     */
     private fun configurarPista(lugar: Lugar) {
         binding.typeSpecificLayout.visibility = View.VISIBLE
         binding.typeTitle.text = "Horarios de la pista"
 
-        val horarios = listOf("08:00 - 12:00", "14:00 - 18:00", "20:00 - 23:00")
+        val horarios = listOf(
+            "08:00 - 12:00",
+            "14:00 - 18:00",
+            "20:00 - 23:00"
+        )
         configurarRecyclerView(horarios)
     }
 
