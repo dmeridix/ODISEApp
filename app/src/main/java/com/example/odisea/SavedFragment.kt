@@ -19,14 +19,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SavedFragment : Fragment() {
+class SavedFragment : Fragment(), PopularPlacesAdapter.OnItemClickListener {
 
-    // Variables para las vistas
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PopularPlacesAdapter
     private lateinit var progressBar: ProgressBar
     private lateinit var sharedPreferenceHelper: SharedPreferenceHelper
-    private var socioId: Int = -1 // ID del socio (inicialmente -1 si no hay socio logueado)
+    private var socioId: Int = -1
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,29 +37,24 @@ class SavedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inicializar SharedPreferenceHelper
         sharedPreferenceHelper = SharedPreferenceHelper(requireContext())
         socioId = sharedPreferenceHelper.getSocioId()
 
-        // Verificar si hay un socio logueado
         if (socioId == -1) {
             Toast.makeText(requireContext(), "No hay un socio logueado", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Vincular vistas
         recyclerView = view.findViewById(R.id.recycler_view_saved_places)
         progressBar = view.findViewById(R.id.progress_bar)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Mostrar ProgressBar mientras se cargan los datos
         progressBar.visibility = View.VISIBLE
 
-        // Inicializar el adaptador vacío y pasar el FragmentManager
-        adapter = PopularPlacesAdapter(emptyList(), requireContext(), childFragmentManager)
+        // 👇 Cambiado: pasamos "this" como listener
+        adapter = PopularPlacesAdapter(emptyList(), requireContext(), this)
         recyclerView.adapter = adapter
 
-        // Cargar datos desde la API usando coroutines
         loadSavedPlaces()
     }
 
@@ -72,12 +66,12 @@ class SavedFragment : Fragment() {
             val apiService = RetrofitClient.apiService
             apiService.obtenerFavoritos(socioId).enqueue(object : Callback<List<Lugar>> {
                 override fun onResponse(call: Call<List<Lugar>>, response: Response<List<Lugar>>) {
-                    progressBar.visibility = View.GONE // Ocultar ProgressBar
+                    progressBar.visibility = View.GONE
 
                     if (response.isSuccessful && response.body() != null) {
                         val lugaresGuardados = response.body()!!
                         if (lugaresGuardados.isNotEmpty()) {
-                            adapter.updateData(lugaresGuardados) // Actualizar el adaptador con los datos
+                            adapter.updateData(lugaresGuardados)
                         } else {
                             Toast.makeText(
                                 requireContext(),
@@ -86,7 +80,6 @@ class SavedFragment : Fragment() {
                             ).show()
                         }
                     } else {
-                        // Manejar respuesta no exitosa
                         Toast.makeText(
                             requireContext(),
                             "Error al cargar los lugares guardados",
@@ -96,9 +89,7 @@ class SavedFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<List<Lugar>>, t: Throwable) {
-                    progressBar.visibility = View.GONE // Ocultar ProgressBar
-
-                    // Mostrar mensaje de error al usuario
+                    progressBar.visibility = View.GONE
                     Toast.makeText(
                         requireContext(),
                         "Fallo al conectar con el servidor",
@@ -108,5 +99,15 @@ class SavedFragment : Fragment() {
                 }
             })
         }
+    }
+
+    // 👇 Nuevo: lógica para abrir el DetailFragment al hacer click en un lugar guardado
+    override fun onItemClick(lugar: Lugar) {
+        val detailFragment = DetailFragment.newInstance(lugar)
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

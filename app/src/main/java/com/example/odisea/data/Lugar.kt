@@ -11,7 +11,9 @@ data class Lugar(
     val ubicacion: String?,
     val valoracion: Float?,
     val descripcion: String?,
-    val tipoEstablecimiento: String,
     @SerializedName("img_url")
-    val imagenUrl: String? = null
-) : Parcelable
+    val imagenUrl: String? = null,
+    val detalles: String? = null,
+    val tipoEstablecimiento: String?
+
+    ) : Parcelable

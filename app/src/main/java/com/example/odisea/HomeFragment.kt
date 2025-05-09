@@ -20,9 +20,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), PopularPlacesAdapter.OnItemClickListener {
 
-    // Variables para las vistas
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PopularPlacesAdapter
     private lateinit var welcomeText: TextView
@@ -33,83 +32,65 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflar el diseño del fragmento
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Inicializar SharedPreferenceHelper
         sharedPreferenceHelper = SharedPreferenceHelper(requireContext())
 
-        // Vincular las vistas del diseño XML
         welcomeText = view.findViewById(R.id.text_welcome)
         progressBar = view.findViewById(R.id.progress_bar)
         recyclerView = view.findViewById(R.id.recycler_view_places)
 
-        // Configurar el RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Obtener el nombre del usuario autenticado desde SharedPreferences
         val userName = getLoggedInUserName()
         welcomeText.text = "Hola, $userName"
 
-        // Inicializar el adaptador vacío y pasar el FragmentManager
-        adapter = PopularPlacesAdapter(emptyList(), requireContext(), childFragmentManager)
+        // 👇 Pasamos "this" como listener
+        adapter = PopularPlacesAdapter(emptyList(), requireContext(), this)
         recyclerView.adapter = adapter
 
-        // Mostrar ProgressBar mientras se cargan los datos
         progressBar.visibility = View.VISIBLE
-
-        // Cargar los datos de lugares populares desde la API
         loadPopularPlaces()
     }
 
-    /**
-     * Obtiene el nombre del usuario autenticado desde SharedPreferences.
-     */
     private fun getLoggedInUserName(): String {
-        // Recuperar el nombre del socio desde SharedPreferences
         return sharedPreferenceHelper.getSocioNombre() ?: "Usuario"
     }
 
-    /**
-     * Carga los lugares populares desde la API utilizando Retrofit.
-     */
     private fun loadPopularPlaces() {
         lifecycleScope.launch {
-            val apiService = RetrofitClient.apiService // Referencia al servicio de la API
+            val apiService = RetrofitClient.apiService
             apiService.getLugares().enqueue(object : Callback<List<Lugar>> {
                 override fun onResponse(call: Call<List<Lugar>>, response: Response<List<Lugar>>) {
-                    progressBar.visibility = View.GONE // Ocultar ProgressBar
-
+                    progressBar.visibility = View.GONE
                     if (response.isSuccessful && response.body() != null) {
                         val lugares = response.body()!!
-                        adapter.updateData(lugares) // Actualizar el adaptador con los datos obtenidos
+                        adapter.updateData(lugares)
                     } else {
-                        // Manejar respuesta no exitosa
-                        Toast.makeText(
-                            requireContext(),
-                            "Error al cargar los datos",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(requireContext(), "Error al cargar los datos", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<List<Lugar>>, t: Throwable) {
-                    progressBar.visibility = View.GONE // Ocultar ProgressBar
-
-                    // Mostrar mensaje de error al usuario
-                    Toast.makeText(
-                        requireContext(),
-                        "Fallo al conectar con el servidor",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    t.printStackTrace() // Imprimir el error en la consola para depuración
+                    progressBar.visibility = View.GONE
+                    Toast.makeText(requireContext(), "Fallo al conectar con el servidor", Toast.LENGTH_SHORT).show()
+                    t.printStackTrace()
                 }
             })
         }
+    }
+
+    // 👇 Aquí manejamos el click y abrimos el DetailFragment
+    override fun onItemClick(lugar: Lugar) {
+        val detailFragment = DetailFragment.newInstance(lugar)
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, detailFragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

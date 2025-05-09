@@ -1,6 +1,7 @@
 package com.example.odisea
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +16,24 @@ class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
 
+    companion object {
+        private const val ARG_LUGAR = "lugar"
+
+        fun newInstance(lugar: Lugar): DetailFragment {
+            val fragment = DetailFragment()
+            val args = Bundle()
+            args.putParcelable(ARG_LUGAR, lugar)
+            fragment.arguments = args
+            Log.d("DetailFragment", "Lugar recibido: $lugar")
+            return fragment
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflar el diseño del fragmento
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -29,14 +42,14 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Recuperar el objeto Lugar del Bundle
-        val lugar = arguments?.getParcelable<Lugar>("lugar")
+        val lugar = arguments?.getParcelable<Lugar>(ARG_LUGAR)
 
         if (lugar == null) {
-            requireActivity().onBackPressed() // Volver atrás si no hay datos
+            requireActivity().onBackPressedDispatcher.onBackPressed()
             return
         }
 
-        // Mostrar datos generales
+        // Mostramos la imagen y los datos generales
         Glide.with(this)
             .load(lugar.imagenUrl)
             .centerCrop()
@@ -47,77 +60,34 @@ class DetailFragment : Fragment() {
         binding.rating.text = if (lugar.valoracion != null) "${lugar.valoracion} ⭐" else "Sin calificación"
         binding.placeDescription.text = lugar.descripcion ?: "Sin descripción"
 
-        // Configurar características específicas según el tipo de establecimiento
-        when (lugar.tipoEstablecimiento) {
-            "hotel" -> configurarHotel(lugar)
-            "spa" -> configurarSpa(lugar)
-            "restaurante" -> configurarRestaurante(lugar)
-            "pista" -> configurarPista(lugar)
-            else -> {
-                binding.typeSpecificLayout.visibility = View.GONE
-                binding.typeTitle.text = "Detalles no disponibles"
-            }
+        // Mostrar los detalles específicos en el RecyclerView
+        configurarDetalles(lugar)
+    }
+
+    /**
+     * Configura los detalles específicos para cualquier tipo de lugar.
+     */
+    private fun configurarDetalles(lugar: Lugar) {
+        // Dividir los detalles en una lista de líneas usando '\n'
+        val detalles = lugar.detalles?.split("\n") ?: listOf("Detalles no disponibles")
+
+        // Obtener el tipo de establecimiento y asignar un título dinámico
+        val tipoEstablecimiento = lugar.tipoEstablecimiento ?: "Lugar"
+        Log.d("DetallesActivity", "TipoEstablecimiento recibido: '${tipoEstablecimiento}'")
+        val titulo = when (tipoEstablecimiento.lowercase()) {
+            "hotel" -> "Normas del hotel"
+            "spa" -> "Servicios del spa"
+            "restaurante" -> "Detalles del restaurante"
+            "pista" -> "Horarios de la pista"
+            else -> "Detalles específicos"
         }
-    }
 
-    /**
-     * Configura los detalles específicos para un hotel.
-     */
-    private fun configurarHotel(lugar: Lugar) {
+        // Configurar el título y mostrar el layout de detalles
+        binding.typeTitle.text = titulo
         binding.typeSpecificLayout.visibility = View.VISIBLE
-        binding.typeTitle.text = "Normas del hotel"
 
-        val normas = listOf(
-            "No fumar",
-            "Check-in a las 15:00",
-            "Mascotas permitidas"
-        )
-        configurarRecyclerView(normas)
-    }
-
-    /**
-     * Configura los detalles específicos para un spa.
-     */
-    private fun configurarSpa(lugar: Lugar) {
-        binding.typeSpecificLayout.visibility = View.VISIBLE
-        binding.typeTitle.text = "Servicios del spa"
-
-        val servicios = listOf(
-            "Masajes",
-            "Tratamientos faciales",
-            "Sauna"
-        )
-        configurarRecyclerView(servicios)
-    }
-
-    /**
-     * Configura los detalles específicos para un restaurante.
-     */
-    private fun configurarRestaurante(lugar: Lugar) {
-        binding.typeSpecificLayout.visibility = View.VISIBLE
-        binding.typeTitle.text = "Detalles del restaurante"
-
-        val detalles = listOf(
-            "Cocina italiana",
-            "Abierto 24/7",
-            "Ambiente romántico"
-        )
+        // Configurar el RecyclerView con los detalles
         configurarRecyclerView(detalles)
-    }
-
-    /**
-     * Configura los detalles específicos para una pista.
-     */
-    private fun configurarPista(lugar: Lugar) {
-        binding.typeSpecificLayout.visibility = View.VISIBLE
-        binding.typeTitle.text = "Horarios de la pista"
-
-        val horarios = listOf(
-            "08:00 - 12:00",
-            "14:00 - 18:00",
-            "20:00 - 23:00"
-        )
-        configurarRecyclerView(horarios)
     }
 
     /**

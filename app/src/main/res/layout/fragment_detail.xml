@@ -46,11 +46,6 @@
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
 
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/rounded_star_rate_24"
-                    android:contentDescription="Calificación" />
             </LinearLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -111,15 +106,15 @@
                 android:layout_marginTop="16dp" />
 
             <LinearLayout
-                android:id="@+id/type_specific_layout"
+                android:id="@+id/typeSpecificLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:visibility="visible"
+                android:visibility="gone"
                 android:paddingTop="16dp">
 
                 <TextView
-                    android:id="@+id/type_title"
+                    android:id="@+id/typeTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Características específicas"
@@ -129,10 +124,9 @@
                     android:paddingBottom="8dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_features"
+                    android:id="@+id/rvFeatures"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
