@@ -15,8 +15,19 @@ interface ApiService {
     fun getLugarDetalles(@Path("id") id: String): Call<Lugar>
 
     // 3. Agregar un lugar a favoritos
-    @POST("favoritos/agregar/{id}")
-    fun agregarAFavoritos(@Path("id") id: String): Call<Void>
+    @POST("favoritos/")
+    fun agregarAFavoritos(
+        @Query("socio_id") socioId: Int,
+        @Query("tipo_establecimiento") tipoEstablecimiento: String,
+        @Query("referencia_id") referenciaId: Int
+    ): Call<Map<String, Any>>
+
+    // Eliminar un lugar de favoritos
+    @DELETE("favoritos/{socio_id}/{referencia_id}")
+    fun eliminarFavorito(
+        @Path("socio_id") socioId: Int,
+        @Path("referencia_id") referenciaId: Int
+    ): Call<Map<String, Any>>
 
     // 4. Obtener lista de favoritos de un socio
     @GET("favoritos/{socio_id}")

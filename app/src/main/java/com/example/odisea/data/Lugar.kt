@@ -14,6 +14,6 @@ data class Lugar(
     @SerializedName("img_url")
     val imagenUrl: String? = null,
     val detalles: String? = null,
+    @SerializedName("tipo_establecimiento")
     val tipoEstablecimiento: String?
-
-    ) : Parcelable
+) : Parcelable
