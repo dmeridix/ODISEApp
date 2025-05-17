@@ -10,7 +10,26 @@
     <string name="seleccionar_fecha_inicial">Seleccionar fecha inicial</string>
     <string name="seleccionar_fecha_final">Seleccionar fecha final</string>
     <string name="numero_personas">Número de personas</string>
+    <string name="seleccionar_tipo_habitacion">Seleccionar tipo de habitación</string>
+    <string name="seleccionar_tipo_pista">Seleccionar tipo de pista</string>
+    <string name="seleccionar_material">Seleccionar material</string>
+    <string name="seleccionar_tiempo_disponible">Seleccionar tiempo disponible</string>
+    <string name="btn_reservar">Reservar</string>
+    <string name="hint_numero_personas">Número de Personas</string>
+    <string name="hint_fecha_hora">Fecha y Hora (YYYY-MM-DD HH:mm)</string>
+    <string name="seleccionar_numero_personas">Selecciona el número de personas</string>
 
+    <string name="seleccionar_tipo_servicio">Seleccionar tipo de servicio</string>
+    <string name="seleccionar_duracion">Seleccionar duración</string>
+    <string name="seleccionar_fecha">Seleccionar fecha</string>
+    <string name="seleccionar_hora">Seleccionar hora</string>
+
+    <string name="seleccionar_tipo_menu">Seleccionar tipo de menú</string>
+    <string name="seleccionar_tipo_cocina">Seleccionar tipo de cocina</string>
+    <string name="seleccionar_ambiente">Seleccionar ambiente</string>
+    <string name="seleccionar_terraza">Seleccionar terraza</string>
+
+    
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus

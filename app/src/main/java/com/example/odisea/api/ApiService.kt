@@ -1,8 +1,11 @@
 package com.example.odisea.api
 
 import com.example.odisea.data.*
+import com.example.odisea.models.*
+
 import retrofit2.Call
 import retrofit2.http.*
+
 
 interface ApiService {
 
@@ -49,21 +52,21 @@ interface ApiService {
     @GET("reservas_spa/{socio_id}")
     fun obtenerReservasSpa(@Path("socio_id") socioId: Int): Call<List<ReservaSpa>>
 
-    // 9. Obtener información detallada de un hotel
-    @GET("informacion_hotel/{hotel_id}")
-    fun obtenerInformacionHotel(@Path("hotel_id") hotelId: Int): Call<HotelInfo>
+    // Obtener habitaciones de un hotel (usa Habitacion)
+    @GET("hotel/{hotel_id}/habitaciones")
+    fun obtenerHabitacionesHotel(@Path("hotel_id") hotelId: Int): Call<List<Habitacion>>
 
-    // 10. Obtener información detallada de una pista
-    @GET("informacion_pista/{pista_id}")
-    fun obtenerInformacionPista(@Path("pista_id") pistaId: Int): Call<PistaInfo>
+    // Obtener servicios de una pista
+    @GET("pista/{pista_id}/servicios")
+    fun obtenerServiciosPista(@Path("pista_id") pistaId: Int): Call<List<ServicioPista>>
 
-    // 11. Obtener información detallada de un restaurante
-    @GET("informacion_restaurante/{restaurante_id}")
-    fun obtenerInformacionRestaurante(@Path("restaurante_id") restauranteId: Int): Call<RestauranteInfo>
+    // Obtener servicios de un restaurante
+    @GET("restaurante/{restaurante_id}/servicios")
+    fun obtenerServiciosRestaurante(@Path("restaurante_id") restauranteId: Int): Call<List<ServicioRestaurante>>
 
-    // 12. Obtener información detallada de un spa
-    @GET("informacion_spa/{spa_id}")
-    fun obtenerInformacionSpa(@Path("spa_id") spaId: Int): Call<SpaInfo>
+    // Obtener servicios de un spa
+    @GET("spa/{spa_id}/servicios")
+    fun obtenerServiciosSpa(@Path("spa_id") spaId: Int): Call<List<ServicioSpa>>
 
     // 13. Buscar lugares por nombre y categoría
     @GET("buscar")
@@ -74,19 +77,19 @@ interface ApiService {
 
     // 14. Crear reserva de hotel
     @POST("reservas_hotel/")
-    fun crearReservaHotel(@Body reserva: ReservaHotel): Call<Void>
+    fun crearReservaHotel(@Body reserva: ReservaHotelCreate): Call<Void>
 
     // 15. Crear reserva de pista
     @POST("reservas_pista/")
-    fun crearReservaPista(@Body reserva: ReservaPista): Call<Void>
+    fun crearReservaPista(@Body reserva: ReservaPistaCreate): Call<Void>
 
     // 16. Crear reserva de restaurante
     @POST("reservas_restaurante/")
-    fun crearReservaRestaurante(@Body reserva: ReservaRestaurante): Call<Void>
+    fun crearReservaRestaurante(@Body reserva: ReservaRestauranteCreate): Call<Void>
 
     // 17. Crear reserva de spa
     @POST("reservas_spa/")
-    fun crearReservaSpa(@Body reserva: ReservaSpa): Call<Void>
+    fun crearReservaSpa(@Body reserva: ReservaSpaCreate): Call<Void>
 
     // 18. Obtener el perfil de un socio
     @GET("perfil/{socio_id}")

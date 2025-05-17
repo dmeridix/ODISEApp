@@ -7,32 +7,29 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.odisea.adapters.FavoritesAdapter
 import com.example.odisea.api.RetrofitClient
 import com.example.odisea.data.Lugar
-import com.example.odisea.adapters.PopularPlacesAdapter
 import com.example.odisea.utils.SharedPreferenceHelper
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SavedFragment : Fragment(), PopularPlacesAdapter.OnItemClickListener {
+class SavedFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: PopularPlacesAdapter
+    private lateinit var adapter: FavoritesAdapter
     private lateinit var progressBar: ProgressBar
     private lateinit var sharedPreferenceHelper: SharedPreferenceHelper
     private var socioId: Int = -1
+    private var favoritosIds = mutableSetOf<Int>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_saved, container, false)
-    }
+    ): View? = inflater.inflate(R.layout.fragment_saved, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,68 +43,87 @@ class SavedFragment : Fragment(), PopularPlacesAdapter.OnItemClickListener {
         }
 
         recyclerView = view.findViewById(R.id.recycler_view_saved_places)
-        progressBar = view.findViewById(R.id.progress_bar)
+        progressBar = view.findViewById(R.id.progress_bar_saved)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        progressBar.visibility = View.VISIBLE
-
-        // 👇 Cambiado: pasamos "this" como listener
-        adapter = PopularPlacesAdapter(emptyList(), requireContext(), this)
+        adapter = FavoritesAdapter(
+            emptyList(),
+            favoritosIds,
+            requireContext(),
+            onItemClick = { lugar -> openDetailFragment(lugar) },
+            onFavoriteClick = { lugar, position ->
+                if (favoritosIds.contains(lugar.id)) {
+                    eliminarFavorito(lugar, position)
+                } else {
+                    agregarAFavoritos(lugar, position)
+                }
+            }
+        )
         recyclerView.adapter = adapter
 
         loadSavedPlaces()
     }
 
-    /**
-     * Carga los lugares guardados (favoritos) del socio desde la API.
-     */
     private fun loadSavedPlaces() {
-        lifecycleScope.launch {
-            val apiService = RetrofitClient.apiService
-            apiService.obtenerFavoritos(socioId).enqueue(object : Callback<List<Lugar>> {
+        progressBar.visibility = View.VISIBLE
+
+        RetrofitClient.apiService.obtenerFavoritos(socioId)
+            .enqueue(object : Callback<List<Lugar>> {
                 override fun onResponse(call: Call<List<Lugar>>, response: Response<List<Lugar>>) {
                     progressBar.visibility = View.GONE
-
                     if (response.isSuccessful && response.body() != null) {
                         val lugaresGuardados = response.body()!!
-                        if (lugaresGuardados.isNotEmpty()) {
-                            adapter.updateData(lugaresGuardados)
-                        } else {
-                            Toast.makeText(
-                                requireContext(),
-                                "No tienes lugares guardados",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        favoritosIds = lugaresGuardados.map { it.id }.toMutableSet()
+                        adapter.updateData(lugaresGuardados, favoritosIds)
                     } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "Error al cargar los lugares guardados",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        Toast.makeText(requireContext(), "Error al cargar favoritos", Toast.LENGTH_SHORT).show()
                     }
                 }
 
                 override fun onFailure(call: Call<List<Lugar>>, t: Throwable) {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(
-                        requireContext(),
-                        "Fallo al conectar con el servidor",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                    t.printStackTrace()
+                    Toast.makeText(requireContext(), "Fallo al conectar", Toast.LENGTH_SHORT).show()
                 }
             })
-        }
     }
 
-    // 👇 Nuevo: lógica para abrir el DetailFragment al hacer click en un lugar guardado
-    override fun onItemClick(lugar: Lugar) {
+    private fun openDetailFragment(lugar: Lugar) {
         val detailFragment = DetailFragment.newInstance(lugar)
-
         requireActivity().supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, detailFragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun agregarAFavoritos(lugar: Lugar, position: Int) {
+        RetrofitClient.apiService.agregarAFavoritos(socioId, lugar.tipoEstablecimiento ?: "", lugar.id)
+            .enqueue(object : Callback<Map<String, Any>> {
+                override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
+                    if (response.isSuccessful) {
+                        favoritosIds.add(lugar.id)
+                        adapter.notifyItemChanged(position)
+                    }
+                }
+
+                override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+                    t.printStackTrace()
+                }
+            })
+    }
+
+    private fun eliminarFavorito(lugar: Lugar, position: Int) {
+        RetrofitClient.apiService.eliminarFavorito(socioId, lugar.id)
+            .enqueue(object : Callback<Map<String, Any>> {
+                override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
+                    if (response.isSuccessful) {
+                        favoritosIds.remove(lugar.id)
+                        adapter.notifyItemChanged(position)
+                    }
+                }
+
+                override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
+                    t.printStackTrace()
+                }
+            })
     }
 }

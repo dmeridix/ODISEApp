@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -33,7 +34,6 @@
                 android:padding="8dp"
                 android:background="#4285F4"
                 app:layout_collapseMode="pin"
-                app:layout_anchorGravity="top|end"
                 android:layout_gravity="top|end"
                 android:layout_margin="16dp">
 
@@ -45,7 +45,6 @@
                     android:textSize="14sp"
                     android:textColor="#FFFFFF"
                     android:textStyle="bold" />
-
             </LinearLayout>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -61,15 +60,41 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/place_name"
+            <!-- Contenedor para nombre del lugar y FAB -->
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nombre del lugar"
-                android:textSize="24sp"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                android:paddingBottom="8dp" />
+                android:paddingBottom="8dp">
+
+                <TextView
+                    android:id="@+id/place_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre del lugar"
+                    android:textSize="24sp"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="48dp"/>
+
+                <!-- FAB con estilo bookmark pequeño -->
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_favorite"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_background_blue"
+                    android:contentDescription="Agregar a favoritos"
+                    app:fabCustomSize="32dp"
+                    app:maxImageSize="26dp"
+                    app:srcCompat="@drawable/baseline_bookmark_border_24"
+                    app:shapeAppearanceOverlay="@style/SquareButtonShape" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/place_location"
@@ -90,7 +115,7 @@
                 android:paddingBottom="16dp" />
 
             <Button
-                android:id="@+id/btn_reserve"
+                android:id="@+id/btnReservar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reservar ahora"

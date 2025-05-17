@@ -1,5 +1,8 @@
 package com.example.odisea.data
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 data class RestauranteInfo(
     val restaurante: Restaurante,
     val servicios: List<ServicioRestaurante>
@@ -13,11 +16,12 @@ data class Restaurante(
     val descripcion: String
 )
 
+@Parcelize
 data class ServicioRestaurante(
     val id: Int,
     val restauranteId: Int,
-    val tipoMenu: String,
-    val tipoCocina: String,
+    val tipo_menu: String,
+    val tipo_cocina: String,
     val ambiente: String,
     val terraza: Boolean
-)
+) : Parcelable
