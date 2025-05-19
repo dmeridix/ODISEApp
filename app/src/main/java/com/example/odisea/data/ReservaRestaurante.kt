@@ -6,6 +6,7 @@ data class ReservaRestaurante(
     val restauranteId: Int, // ID del restaurante
     val servicioRestauranteId: Int, // Nuevo campo: ID del servicio de restaurante
     val fecha: String, // Fecha de reserva (formato "YYYY-MM-DD")
-    val hora: String  // Hora de reserva (formato "HH:mm")
+    val hora: String,  // Hora de reserva (formato "HH:mm")
+    val nombreLugar: String // Nom del hotel
 )
 

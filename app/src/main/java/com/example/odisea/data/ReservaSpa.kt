@@ -6,6 +6,7 @@ data class ReservaSpa(
     val spaId: Int, // ID del spa
     val servicioSpaId: Int, // Nuevo campo: ID del servicio de spa
     val fecha: String, // Fecha de reserva (formato "YYYY-MM-DD")
-    val hora: String  // Hora de reserva (formato "HH:mm")
+    val hora: String,  // Hora de reserva (formato "HH:mm")
+    val nombreLugar: String // Nom del hotel
 )
 

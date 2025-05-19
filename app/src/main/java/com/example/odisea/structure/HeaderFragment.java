@@ -1,5 +1,4 @@
 package com.example.odisea.structure;
-
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.odisea.HomeFragment;
+import com.example.odisea.PreferencesFragment; // ⬅️ Importa el fragment de preferències
 import com.example.odisea.R;
 
 public class HeaderFragment extends Fragment {
@@ -46,10 +46,21 @@ public class HeaderFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_header, container, false);
 
         ImageView logoImageView = view.findViewById(R.id.logoImageView);
+        ImageView profileIconImageView = view.findViewById(R.id.profileIconImageView); // 🔥 Icono de perfil
+
+        // Navegar a HomeFragment quan es fa clic al logo
         logoImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 navigateToHomeFragment();
+            }
+        });
+
+        // Navegar a PreferencesFragment quan es fa clic a l'icona de perfil
+        profileIconImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToPreferencesFragment(); // 🔁 Nova funció per anar a Preferències
             }
         });
 
@@ -61,6 +72,16 @@ public class HeaderFragment extends Fragment {
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, homeFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    // 🔁 Mètode per navegar a PreferencesFragment
+    private void navigateToPreferencesFragment() {
+        PreferencesFragment preferencesFragment = new PreferencesFragment();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, preferencesFragment)
                 .addToBackStack(null)
                 .commit();
     }
