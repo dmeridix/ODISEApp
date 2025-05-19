@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.odisea.R
 
+
 class ReservationAdapter(
     private val reservations: List<Map<String, String>>
 ) : RecyclerView.Adapter<ReservationAdapter.ViewHolder>() {

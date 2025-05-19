@@ -1,198 +1,206 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:fillViewport="true">
 
-    <!-- Nombre del Restaurante -->
-    <EditText
-        android:id="@+id/etNombre"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del Restaurante"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:padding="16dp">
 
-    <!-- Ubicación del Restaurante -->
-    <EditText
-        android:id="@+id/etUbicacion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Ubicación"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etNombre"
-        android:layout_marginTop="16dp"/>
+        <!-- Nombre del Restaurante -->
+        <EditText
+            android:id="@+id/etNombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Nombre del Restaurante"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp"/>
 
-    <!-- Imagen del Restaurante -->
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:background="#444"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etUbicacion"
-        android:layout_marginTop="16dp"
-        android:contentDescription="Imagen del restaurante"/>
+        <!-- Ubicación del Restaurante -->
+        <EditText
+            android:id="@+id/etUbicacion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Ubicación"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etNombre"
+            android:layout_marginTop="16dp"/>
 
-    <!-- Etiqueta para el Spinner de Tipo de Menú -->
-    <TextView
-        android:id="@+id/tvTipoMenuLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Tipo de menú"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView"/>
+        <!-- Imagen del Restaurante -->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="#444"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etUbicacion"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Imagen del restaurante"/>
 
-    <!-- Spinner para seleccionar el tipo de menú -->
-    <Spinner
-        android:id="@+id/spnTipoMenu"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/seleccionar_tipo_menu"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTipoMenuLabel"
-        android:layout_marginTop="8dp"/>
+        <!-- Etiqueta para el Spinner de Tipo de Menú -->
+        <TextView
+            android:id="@+id/tvTipoMenuLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Tipo de menú"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView"/>
 
-    <!-- Etiqueta para el Spinner de Tipo de Cocina -->
-    <TextView
-        android:id="@+id/tvTipoCocinaLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Tipo de cocina"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnTipoMenu"/>
+        <!-- Spinner para seleccionar el tipo de menú -->
+        <Spinner
+            android:id="@+id/spnTipoMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/seleccionar_tipo_menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTipoMenuLabel"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Spinner para seleccionar el tipo de cocina -->
-    <Spinner
-        android:id="@+id/spnTipoCocina"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/seleccionar_tipo_cocina"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTipoCocinaLabel"
-        android:layout_marginTop="8dp"/>
+        <!-- Etiqueta para el Spinner de Tipo de Cocina -->
+        <TextView
+            android:id="@+id/tvTipoCocinaLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Tipo de cocina"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnTipoMenu"/>
 
-    <!-- Etiqueta para el Spinner de Ambiente -->
-    <TextView
-        android:id="@+id/tvAmbienteLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Ambiente"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnTipoCocina"/>
+        <!-- Spinner para seleccionar el tipo de cocina -->
+        <Spinner
+            android:id="@+id/spnTipoCocina"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/seleccionar_tipo_cocina"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTipoCocinaLabel"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Spinner para seleccionar el ambiente -->
-    <Spinner
-        android:id="@+id/spnAmbiente"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/seleccionar_ambiente"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvAmbienteLabel"
-        android:layout_marginTop="8dp"/>
+        <!-- Etiqueta para el Spinner de Ambiente -->
+        <TextView
+            android:id="@+id/tvAmbienteLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ambiente"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnTipoCocina"/>
 
-    <!-- Etiqueta para el Spinner de Terraza -->
-    <TextView
-        android:id="@+id/tvTerrazaLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Terraza"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnAmbiente"/>
+        <!-- Spinner para seleccionar el ambiente -->
+        <Spinner
+            android:id="@+id/spnAmbiente"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/seleccionar_ambiente"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvAmbienteLabel"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Spinner para seleccionar si tiene terraza -->
-    <Spinner
-        android:id="@+id/spnTerraza"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/seleccionar_terraza"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTerrazaLabel"
-        android:layout_marginTop="8dp"/>
+        <!-- Etiqueta para el Spinner de Terraza -->
+        <TextView
+            android:id="@+id/tvTerrazaLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Terraza"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnAmbiente"/>
 
-    <!-- Etiqueta para el Spinner de Fecha -->
-    <TextView
-        android:id="@+id/tvFechaLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Fecha"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnTerraza"/>
+        <!-- Spinner para seleccionar si tiene terraza -->
+        <Spinner
+            android:id="@+id/spnTerraza"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/seleccionar_terraza"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTerrazaLabel"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Spinner para seleccionar la fecha predefinida -->
-    <Spinner
-        android:id="@+id/spnFecha"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/seleccionar_fecha"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvFechaLabel"
-        android:layout_marginTop="8dp"/>
+        <!-- Etiqueta para el Spinner de Fecha -->
+        <TextView
+            android:id="@+id/tvFechaLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Fecha"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnTerraza"/>
 
-    <!-- Etiqueta para el Spinner de Hora -->
-    <TextView
-        android:id="@+id/tvHoraLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Hora"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnFecha"/>
+        <!-- Spinner para seleccionar la fecha predefinida -->
+        <Spinner
+            android:id="@+id/spnFecha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/seleccionar_fecha"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFechaLabel"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Spinner para seleccionar la hora predefinida -->
-    <Spinner
-        android:id="@+id/spnHora"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/seleccionar_hora"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHoraLabel"
-        android:layout_marginTop="8dp"/>
+        <!-- Etiqueta para el Spinner de Hora -->
+        <TextView
+            android:id="@+id/tvHoraLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Hora"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnFecha"/>
 
-    <!-- Botón Reservar -->
-    <Button
-        android:id="@+id/btnReservar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Reservar"
-        android:backgroundTint="#D2F4AA"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnHora"
-        android:layout_marginTop="16dp"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Spinner para seleccionar la hora predefinida -->
+        <Spinner
+            android:id="@+id/spnHora"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/seleccionar_hora"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHoraLabel"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Botón Reservar -->
+        <Button
+            android:id="@+id/btnReservar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Reservar"
+            android:backgroundTint="#D2F4AA"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnHora"
+            android:layout_marginTop="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,167 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:fillViewport="true">
 
-    <!-- Logo -->
-    <ImageView
-        android:id="@+id/logoImageView"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/logo_odisea1111"
-        android:contentDescription="Logo ODISEA"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:padding="16dp">
 
-    <!-- Etiqueta para el Nombre -->
-    <TextView
-        android:id="@+id/tvNombreLabeles"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Nombre"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logoImageView"/>
+        <!-- Etiqueta para el Nombre -->
+        <TextView
+            android:id="@+id/tvNombreLabeles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Nombre"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent"/>
 
-    <!-- Nombre -->
-    <EditText
-        android:id="@+id/etNombrees"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Ingrese el nombre"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNombreLabeles"
-        android:layout_marginTop="8dp"/>
+        <!-- Nombre -->
+        <EditText
+            android:id="@+id/etNombrees"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Ingrese el nombre"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNombreLabeles"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Etiqueta para la Ubicación -->
-    <TextView
-        android:id="@+id/tvUbicacionLabeles"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Ubicación"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etNombrees"/>
+        <!-- Etiqueta para la Ubicación -->
+        <TextView
+            android:id="@+id/tvUbicacionLabeles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Ubicación"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etNombrees"/>
 
-    <!-- Ubicación -->
-    <EditText
-        android:id="@+id/etUbicacion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Ingrese la ubicación"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvUbicacionLabeles"
-        android:layout_marginTop="8dp"/>
+        <!-- Ubicación -->
+        <EditText
+            android:id="@+id/etUbicacion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Ingrese la ubicación"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvUbicacionLabeles"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Imagen -->
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:background="#444"
-        android:contentDescription="Imagen del hotel"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etUbicacion"
-        android:layout_marginTop="16dp"/>
+        <!-- Imagen -->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="#444"
+            android:contentDescription="Imagen del hotel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etUbicacion"
+            android:layout_marginTop="16dp"/>
 
-    <!-- Etiqueta para el Spinner de Tipo de Habitación -->
-    <TextView
-        android:id="@+id/tvTipoHabitacionLabeles"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Tipo de habitación"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView"/>
+        <!-- Etiqueta para el Spinner de Tipo de Habitación -->
+        <TextView
+            android:id="@+id/tvTipoHabitacionLabeles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Tipo de habitación"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView"/>
 
-    <!-- Seleccionar tipo de habitación -->
-    <Spinner
-        android:id="@+id/spnTipoHabitacion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/seleccionar_tipo_habitacion"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTipoHabitacionLabeles"
-        android:layout_marginTop="8dp"/>
+        <!-- Seleccionar tipo de habitación -->
+        <Spinner
+            android:id="@+id/spnTipoHabitacion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/seleccionar_tipo_habitacion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTipoHabitacionLabeles"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Etiqueta para la Fecha de Entrada -->
-    <TextView
-        android:id="@+id/tvFechaEntradaLabeles"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Fecha de entrada"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnTipoHabitacion"/>
+        <!-- Etiqueta para la Fecha de Entrada -->
+        <TextView
+            android:id="@+id/tvFechaEntradaLabeles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Fecha de entrada"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnTipoHabitacion"/>
 
-    <!-- Fecha de Entrada -->
-    <EditText
-        android:id="@+id/etFechaEntrada"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="YYYY-MM-DD"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvFechaEntradaLabeles"
-        android:layout_marginTop="8dp"/>
+        <!-- Fecha de Entrada -->
+        <EditText
+            android:id="@+id/etFechaEntrada"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="YYYY-MM-DD"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFechaEntradaLabeles"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Etiqueta para la Fecha de Salida -->
-    <TextView
-        android:id="@+id/tvFechaSalidaLabeles"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Fecha de salida"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etFechaEntrada"/>
+        <!-- Etiqueta para la Fecha de Salida -->
+        <TextView
+            android:id="@+id/tvFechaSalidaLabeles"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Fecha de salida"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etFechaEntrada"/>
 
-    <!-- Fecha de Salida -->
-    <EditText
-        android:id="@+id/etFechaSalida"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="YYYY-MM-DD"
-        android:inputType="date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvFechaSalidaLabeles"
-        android:layout_marginTop="8dp"/>
+        <!-- Fecha de Salida -->
+        <EditText
+            android:id="@+id/etFechaSalida"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="YYYY-MM-DD"
+            android:inputType="date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFechaSalidaLabeles"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Botón Reservar -->
-    <Button
-        android:id="@+id/btnReservar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Reservar"
-        android:backgroundTint="#D2F4AA"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etFechaSalida"
-        android:layout_marginTop="16dp"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Botón Reservar -->
+        <Button
+            android:id="@+id/btnReservar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Reservar"
+            android:backgroundTint="#D2F4AA"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etFechaSalida"
+            android:layout_marginTop="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

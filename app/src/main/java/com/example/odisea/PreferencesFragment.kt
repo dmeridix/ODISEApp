@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.odisea.R
 import com.example.odisea.adapters.ReservationAdapter
 import com.example.odisea.api.RetrofitClient
+import com.example.odisea.data.Reserva
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
@@ -19,7 +20,7 @@ class PreferenciasFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ReservationAdapter
-    private val reservationsList = mutableListOf<Map<String, String>>()
+    private val reservasList = mutableListOf<Reserva>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,7 +38,6 @@ class PreferenciasFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // Inicializar el adaptador
-        adapter = ReservationAdapter(reservationsList)
         recyclerView.adapter = adapter
 
         // Cargar datos del perfil del socio
@@ -48,7 +48,7 @@ class PreferenciasFragment : Fragment() {
     }
 
     private fun cargarPerfilSocio() {
-        // Simular datos del perfil del socio (puedes reemplazar esto con una llamada a la API)
+        // Simular datos del perfil del socio
         val nombre = "Nombre del Socio"
         val telefono = "Teléfono del Socio"
         val email = "Email del Socio"
@@ -72,14 +72,10 @@ class PreferenciasFragment : Fragment() {
 
                 // Procesar todas las reservas
                 val reservas = mutableListOf<Map<String, String>>()
-                reservas.addAll(reservasHotel.map { mapOf("title" to it.nombreEstablecimiento, "details" to it.fechaEntrada) })
-                reservas.addAll(reservasPista.map { mapOf("title" to it.nombreEstablecimiento, "details" to it.fecha) })
-                reservas.addAll(reservasRestaurante.map { mapOf("title" to it.nombreEstablecimiento, "details" to it.fecha) })
-                reservas.addAll(reservasSpa.map { mapOf("title" to it.nombreEstablecimiento, "details" to it.fecha) })
+
 
                 // Actualizar el RecyclerView
-                reservationsList.clear()
-                reservationsList.addAll(reservas)
+                reservasList.clear()
                 adapter.notifyDataSetChanged()
             } catch (e: Exception) {
                 e.printStackTrace()

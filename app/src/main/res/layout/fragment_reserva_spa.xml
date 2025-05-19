@@ -1,150 +1,158 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:fillViewport="true">
 
-    <!-- Nombre del Spa -->
-    <EditText
-        android:id="@+id/etNombre"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del Spa"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="16dp"/>
+        android:padding="16dp">
 
-    <!-- Ubicación del Spa -->
-    <EditText
-        android:id="@+id/etUbicacion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Ubicación"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etNombre"
-        android:layout_marginTop="16dp"/>
+        <!-- Nombre del Spa -->
+        <EditText
+            android:id="@+id/etNombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Nombre del Spa"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="16dp"/>
 
-    <!-- Imagen del Spa -->
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:background="#444"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etUbicacion"
-        android:layout_marginTop="16dp"
-        android:contentDescription="Imagen del spa"/>
+        <!-- Ubicación del Spa -->
+        <EditText
+            android:id="@+id/etUbicacion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Ubicación"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etNombre"
+            android:layout_marginTop="16dp"/>
 
-    <!-- Etiqueta para el Spinner de Tipo de Servicio -->
-    <TextView
-        android:id="@+id/tvTipoServicioLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Tipo de servicio"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imageView"/>
+        <!-- Imagen del Spa -->
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="#444"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etUbicacion"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Imagen del spa"/>
 
-    <!-- Spinner para seleccionar el tipo de servicio -->
-    <Spinner
-        android:id="@+id/spnTipoServicio"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/seleccionar_tipo_servicio"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTipoServicioLabel"
-        android:layout_marginTop="8dp"/>
+        <!-- Etiqueta para el Spinner de Tipo de Servicio -->
+        <TextView
+            android:id="@+id/tvTipoServicioLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Tipo de servicio"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView"/>
 
-    <!-- Etiqueta para el Spinner de Duración -->
-    <TextView
-        android:id="@+id/tvDuracionLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Duración del servicio"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnTipoServicio"/>
+        <!-- Spinner para seleccionar el tipo de servicio -->
+        <Spinner
+            android:id="@+id/spnTipoServicio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/seleccionar_tipo_servicio"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTipoServicioLabel"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Spinner para seleccionar la duración del servicio -->
-    <Spinner
-        android:id="@+id/spnDuracion"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/seleccionar_duracion"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvDuracionLabel"
-        android:layout_marginTop="8dp"/>
+        <!-- Etiqueta para el Spinner de Duración -->
+        <TextView
+            android:id="@+id/tvDuracionLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Duración del servicio"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnTipoServicio"/>
 
-    <!-- Etiqueta para el Spinner de Fecha -->
-    <TextView
-        android:id="@+id/tvFechaLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Fecha de reserva"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnDuracion"/>
+        <!-- Spinner para seleccionar la duración del servicio -->
+        <Spinner
+            android:id="@+id/spnDuracion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/seleccionar_duracion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDuracionLabel"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Spinner para seleccionar la fecha predefinida -->
-    <Spinner
-        android:id="@+id/spnFecha"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/seleccionar_fecha"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvFechaLabel"
-        android:layout_marginTop="8dp"/>
+        <!-- Etiqueta para el Spinner de Fecha -->
+        <TextView
+            android:id="@+id/tvFechaLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Fecha de reserva"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnDuracion"/>
 
-    <!-- Etiqueta para el Spinner de Hora -->
-    <TextView
-        android:id="@+id/tvHoraLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Hora de reserva"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnFecha"/>
+        <!-- Spinner para seleccionar la fecha predefinida -->
+        <Spinner
+            android:id="@+id/spnFecha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/seleccionar_fecha"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvFechaLabel"
+            android:layout_marginTop="8dp"/>
 
-    <!-- Spinner para seleccionar la hora predefinida -->
-    <Spinner
-        android:id="@+id/spnHora"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:prompt="@string/seleccionar_hora"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHoraLabel"
-        android:layout_marginTop="8dp"/>
+        <!-- Etiqueta para el Spinner de Hora -->
+        <TextView
+            android:id="@+id/tvHoraLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Hora de reserva"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnFecha"/>
 
-    <!-- Botón Reservar -->
-    <Button
-        android:id="@+id/btnReservar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Reservar"
-        android:backgroundTint="#D2F4AA"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spnHora"
-        android:layout_marginTop="16dp"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!-- Spinner para seleccionar la hora predefinida -->
+        <Spinner
+            android:id="@+id/spnHora"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:prompt="@string/seleccionar_hora"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvHoraLabel"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Botón Reservar -->
+        <Button
+            android:id="@+id/btnReservar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Reservar"
+            android:backgroundTint="#D2F4AA"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spnHora"
+            android:layout_marginTop="16dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

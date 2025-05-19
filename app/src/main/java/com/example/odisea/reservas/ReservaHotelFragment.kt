@@ -12,6 +12,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.example.odisea.HomeFragment
 import com.example.odisea.R
 import com.example.odisea.api.RetrofitClient
 import com.example.odisea.data.Habitacion
@@ -69,7 +70,7 @@ class ReservaHotelFragment : Fragment() {
         etFechaEntrada = view.findViewById(R.id.etFechaEntrada)
         etFechaSalida = view.findViewById(R.id.etFechaSalida)
         btnReservar = view.findViewById(R.id.btnReservar)
-        etNombre = view.findViewById(R.id.etNombre) // Campo para mostrar el nombre del hotel
+        etNombre = view.findViewById(R.id.etNombrees) // Campo para mostrar el nombre del hotel
         etUbicacion = view.findViewById(R.id.etUbicacion) // Campo para mostrar la ubicación del hotel
         ivHotelImage = view.findViewById(R.id.imageView) // Imagen del hotel
 
@@ -147,6 +148,13 @@ class ReservaHotelFragment : Fragment() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Toast.makeText(requireContext(), "Reserva realizada con éxito", Toast.LENGTH_SHORT).show()
+
+                    // 🔁 Redirigir al HomeFragment
+                    val homeFragment = HomeFragment()
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, homeFragment)
+                        .addToBackStack(null)
+                        .commit()
                 } else {
                     Toast.makeText(requireContext(), "Error al realizar la reserva", Toast.LENGTH_SHORT).show()
                 }

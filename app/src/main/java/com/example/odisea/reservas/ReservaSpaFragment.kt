@@ -12,6 +12,7 @@ import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.example.odisea.HomeFragment
 import com.example.odisea.R
 import com.example.odisea.api.RetrofitClient
 import com.example.odisea.data.Lugar
@@ -173,6 +174,12 @@ class ReservaSpaFragment : Fragment() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
                     Toast.makeText(requireContext(), "Reserva realizada con éxito", Toast.LENGTH_SHORT).show()
+
+                    val homeFragment = HomeFragment()
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, homeFragment)
+                        .addToBackStack(null)
+                        .commit()
                 } else {
                     Toast.makeText(requireContext(), "Error al realizar la reserva", Toast.LENGTH_SHORT).show()
                 }
