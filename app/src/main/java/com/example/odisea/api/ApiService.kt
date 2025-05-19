@@ -105,4 +105,32 @@ interface ApiService {
         @Query("email") email: String,
         @Query("contrasenya") contrasenya: String
     ): Call<Map<String, Any>>
+
+    // Cancelar reserva de hotel
+    @DELETE("reserva/hotel/{socio_id}/{lugar_id}")
+    fun cancelarReservaHotel(
+        @Path("socio_id") socioId: Int,
+        @Path("lugar_id") lugarId: Int
+    ): Call<Void>
+
+    // Cancelar reserva de restaurante
+    @DELETE("reserva/restaurante/{socio_id}/{lugar_id}")
+    fun cancelarReservaRestaurante(
+        @Path("socio_id") socioId: Int,
+        @Path("lugar_id") lugarId: Int
+    ): Call<Void>
+
+    // Cancelar reserva de spa
+    @DELETE("reserva/spa/{socio_id}/{lugar_id}")
+    fun cancelarReservaSpa(
+        @Path("socio_id") socioId: Int,
+        @Path("lugar_id") lugarId: Int
+    ): Call<Void>
+
+    // Cancelar reserva de pista
+    @DELETE("reserva/pista/{socio_id}/{lugar_id}")
+    fun cancelarReservaPista(
+        @Path("socio_id") socioId: Int,
+        @Path("lugar_id") lugarId: Int
+    ): Call<Void>
 }
