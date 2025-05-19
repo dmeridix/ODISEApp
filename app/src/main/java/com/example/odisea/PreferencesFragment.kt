@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.odisea.adapters.ReservationAdapter
 import com.example.odisea.api.RetrofitClient
-import com.example.odisea.data.Lugar
 import com.example.odisea.data.Reserva
+import com.example.odisea.data.ReservaResumen
 import com.example.odisea.utils.SharedPreferenceHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,7 +50,6 @@ class PreferencesFragment : Fragment() {
             return
         }
 
-        // Bind views
         tvName = view.findViewById(R.id.tv_profile_name)
         tvPhone = view.findViewById(R.id.tv_profile_phone)
         tvEmail = view.findViewById(R.id.tv_profile_email)
@@ -74,9 +73,9 @@ class PreferencesFragment : Fragment() {
                 if (response.isSuccessful && response.body() != null) {
                     val perfil = response.body()!!
                     tvName.text = "Nombre: ${perfil.nombre}"
-                    tvPhone.text = "Teléfono: ${perfil.telefono}"
+                    tvPhone.text = "Teléfono: ${perfil.telefono ?: "N/A"}"
                     tvEmail.text = "Email: ${perfil.email}"
-                    tvDni.text = "DNI: ${perfil.dni}"
+                    tvDni.text = "DNI: ${perfil.dni ?: "N/A"}"
                 } else {
                     Toast.makeText(requireContext(), "Error al cargar perfil", Toast.LENGTH_SHORT).show()
                 }
@@ -91,17 +90,53 @@ class PreferencesFragment : Fragment() {
             try {
                 val reservas = mutableListOf<Reserva>()
 
+                // Hoteles
                 val hoteles = RetrofitClient.apiService.obtenerReservasHotel(socioId).awaitResponse().body() ?: emptyList()
-                reservas.addAll(hoteles.map { Reserva("Hotel", it.nombreLugar, it.fechaEntrada, it.id) })
+                reservas.addAll(hoteles.map {
+                    Reserva(
+                        idLugar = it.id,
+                        tipo = it.tipo,
+                        nombreLugar = it.nombre_lugar,
+                        fecha = it.fecha_entrada,  // Usamos solo fecha_entrada
+                        hora = ""
+                    )
+                })
 
+                // Restaurantes
                 val restaurantes = RetrofitClient.apiService.obtenerReservasRestaurante(socioId).awaitResponse().body() ?: emptyList()
-                reservas.addAll(restaurantes.map { Reserva("Restaurante", it.nombreLugar, it.fecha, it.id) })
+                reservas.addAll(restaurantes.map {
+                    Reserva(
+                        idLugar = it.id,
+                        tipo = it.tipo,
+                        nombreLugar = it.nombre_lugar,
+                        fecha = it.fecha,
+                        hora = it.hora ?: ""
+                    )
+                })
 
+                // Spa
                 val spas = RetrofitClient.apiService.obtenerReservasSpa(socioId).awaitResponse().body() ?: emptyList()
-                reservas.addAll(spas.map { Reserva("Spa", it.nombreLugar, it.fecha, it.id) })
+                reservas.addAll(spas.map {
+                    Reserva(
+                        idLugar = it.id,
+                        tipo = it.tipo,
+                        nombreLugar = it.nombre_lugar,
+                        fecha = it.fecha,
+                        hora = it.hora ?: ""
+                    )
+                })
 
+                // Pistas
                 val pistas = RetrofitClient.apiService.obtenerReservasPista(socioId).awaitResponse().body() ?: emptyList()
-                reservas.addAll(pistas.map { Reserva("Pista", it.nombreLugar, it.fecha, it.id) })
+                reservas.addAll(pistas.map {
+                    Reserva(
+                        idLugar = it.id,
+                        tipo = it.tipo,
+                        nombreLugar = it.nombre_lugar,
+                        fecha = it.fecha,
+                        hora = ""
+                    )
+                })
 
                 withContext(Dispatchers.Main) {
                     reservasList.clear()

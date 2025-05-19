@@ -17,6 +17,9 @@ interface ApiService {
     @GET("lugares/{id}")
     fun getLugarDetalles(@Path("id") id: String): Call<Lugar>
 
+    @GET("perfil/{socio_id}")
+    fun obtenerPerfilSocio(@Path("socio_id") socioId: Int): Call<UserProfile>
+
     // 3. Agregar un lugar a favoritos
     @POST("favoritos/")
     fun agregarAFavoritos(
@@ -38,19 +41,19 @@ interface ApiService {
 
     // 5. Obtener reservas de hotel de un socio
     @GET("reservas_hotel/{socio_id}")
-    fun obtenerReservasHotel(@Path("socio_id") socioId: Int): Call<List<ReservaHotel>>
+    fun obtenerReservasHotel(@Path("socio_id") socioId: Int): Call<List<ReservaResumen>>
 
     // 6. Obtener reservas de pista de un socio
     @GET("reservas_pista/{socio_id}")
-    fun obtenerReservasPista(@Path("socio_id") socioId: Int): Call<List<ReservaPista>>
+    fun obtenerReservasPista(@Path("socio_id") socioId: Int): Call<List<ReservaResumen>>
 
     // 7. Obtener reservas de restaurante de un socio
     @GET("reservas_restaurante/{socio_id}")
-    fun obtenerReservasRestaurante(@Path("socio_id") socioId: Int): Call<List<ReservaRestaurante>>
+    fun obtenerReservasRestaurante(@Path("socio_id") socioId: Int): Call<List<ReservaResumen>>
 
     // 8. Obtener reservas de spa de un socio
     @GET("reservas_spa/{socio_id}")
-    fun obtenerReservasSpa(@Path("socio_id") socioId: Int): Call<List<ReservaSpa>>
+    fun obtenerReservasSpa(@Path("socio_id") socioId: Int): Call<List<ReservaResumen>>
 
     // Obtener habitaciones de un hotel (usa Habitacion)
     @GET("hotel/{hotel_id}/habitaciones")
@@ -90,10 +93,6 @@ interface ApiService {
     // 17. Crear reserva de spa
     @POST("reservas_spa/")
     fun crearReservaSpa(@Body reserva: ReservaSpaCreate): Call<Void>
-
-    // 18. Obtener el perfil de un socio
-    @GET("perfil/{socio_id}")
-    fun obtenerPerfilSocio(@Path("socio_id") socioId: Int): Call<UserProfile>
 
     // 19. Eliminar un socio
     @DELETE("socios/{socio_id}")
