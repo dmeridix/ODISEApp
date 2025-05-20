@@ -23,15 +23,7 @@ class ReservationAdapter(
         fun bind(reserva: Reserva) {
             tipoText.text = reserva.tipo
             nombreText.text = reserva.nombreLugar
-
-            // Mostrar hora solo si no está vacía
-            val fechaHora = if (reserva.hora.isNotEmpty()) {
-                "${reserva.fecha} - ${reserva.hora}"
-            } else {
-                reserva.fecha
-            }
-
-            fechaText.text = fechaHora
+            fechaText.text = reserva.fecha  // Solo muestra fecha
             cancelBtn.setOnClickListener { onCancelClick(reserva) }
         }
     }

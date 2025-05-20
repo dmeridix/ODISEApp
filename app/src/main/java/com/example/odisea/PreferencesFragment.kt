@@ -90,65 +90,77 @@ class PreferencesFragment : Fragment() {
             try {
                 val reservas = mutableListOf<Reserva>()
 
-                // Hoteles
-                val hoteles = RetrofitClient.apiService.obtenerReservasHotel(socioId).awaitResponse().body() ?: emptyList()
-                reservas.addAll(hoteles.map {
-                    Reserva(
-                        idLugar = it.id,
-                        tipo = it.tipo,
-                        nombreLugar = it.nombre_lugar,
-                        fecha = it.fecha_entrada,  // Usamos solo fecha_entrada
-                        hora = ""
-                    )
-                })
+                // Hotel
+                val hotelResponse = RetrofitClient.apiService.obtenerReservasHotel(socioId).awaitResponse()
+                if (hotelResponse.isSuccessful) {
+                    val hoteles = hotelResponse.body() ?: emptyList()
+                    reservas.addAll(hoteles.map {
+                        Reserva(
+                            idLugar = it.id,
+                            tipo = it.tipo,
+                            nombreLugar = it.nombre_lugar,
+                            fecha = it.fecha_entrada ?: "Sin fecha"
+                        )
+                    })
+                }
 
-                // Restaurantes
-                val restaurantes = RetrofitClient.apiService.obtenerReservasRestaurante(socioId).awaitResponse().body() ?: emptyList()
-                reservas.addAll(restaurantes.map {
-                    Reserva(
-                        idLugar = it.id,
-                        tipo = it.tipo,
-                        nombreLugar = it.nombre_lugar,
-                        fecha = it.fecha,
-                        hora = it.hora ?: ""
-                    )
-                })
+                // Restaurante
+                val restResponse = RetrofitClient.apiService.obtenerReservasRestaurante(socioId).awaitResponse()
+                if (restResponse.isSuccessful) {
+                    val restaurantes = restResponse.body() ?: emptyList()
+                    reservas.addAll(restaurantes.map {
+                        Reserva(
+                            idLugar = it.id,
+                            tipo = it.tipo,
+                            nombreLugar = it.nombre_lugar,
+                            fecha = it.fecha ?: "Sin fecha"
+                        )
+                    })
+                }
 
                 // Spa
-                val spas = RetrofitClient.apiService.obtenerReservasSpa(socioId).awaitResponse().body() ?: emptyList()
-                reservas.addAll(spas.map {
-                    Reserva(
-                        idLugar = it.id,
-                        tipo = it.tipo,
-                        nombreLugar = it.nombre_lugar,
-                        fecha = it.fecha,
-                        hora = it.hora ?: ""
-                    )
-                })
+                val spaResponse = RetrofitClient.apiService.obtenerReservasSpa(socioId).awaitResponse()
+                if (spaResponse.isSuccessful) {
+                    val spas = spaResponse.body() ?: emptyList()
+                    reservas.addAll(spas.map {
+                        Reserva(
+                            idLugar = it.id,
+                            tipo = it.tipo,
+                            nombreLugar = it.nombre_lugar,
+                            fecha = it.fecha ?: "Sin fecha"
+                        )
+                    })
+                }
 
-                // Pistas
-                val pistas = RetrofitClient.apiService.obtenerReservasPista(socioId).awaitResponse().body() ?: emptyList()
-                reservas.addAll(pistas.map {
-                    Reserva(
-                        idLugar = it.id,
-                        tipo = it.tipo,
-                        nombreLugar = it.nombre_lugar,
-                        fecha = it.fecha,
-                        hora = ""
-                    )
-                })
+                // Pista
+                val pistaResponse = RetrofitClient.apiService.obtenerReservasPista(socioId).awaitResponse()
+                if (pistaResponse.isSuccessful) {
+                    val pistas = pistaResponse.body() ?: emptyList()
+                    reservas.addAll(pistas.map {
+                        Reserva(
+                            idLugar = it.id,
+                            tipo = it.tipo,
+                            nombreLugar = it.nombre_lugar,
+                            fecha = it.fecha ?: "Sin fecha"
+                        )
+                    })
+                }
 
                 withContext(Dispatchers.Main) {
                     reservasList.clear()
                     reservasList.addAll(reservas)
                     adapter.notifyDataSetChanged()
                 }
+
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(requireContext(), "Error al cargar reservas", Toast.LENGTH_SHORT).show()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(requireContext(), "Error al cargar reservas", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
+
 
     private fun cancelarReserva(socioId: Int, reserva: Reserva) {
         val call: Call<Void>? = when (reserva.tipo.lowercase()) {

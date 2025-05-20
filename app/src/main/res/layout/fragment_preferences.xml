@@ -2,77 +2,79 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Sección de Perfil del Socio -->
+        <!-- Título general -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Perfil Socio"
-            android:textSize="18sp"
+            android:text="Perfil del Socio"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:paddingBottom="8dp" />
+            android:textColor="#333333"
+            android:layout_marginBottom="12dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cuenta"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:paddingBottom="8dp" />
-
-        <TextView
-            android:id="@+id/tv_profile_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nombre: --"
-            android:textStyle="bold"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_profile_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Teléfono: --"
-            android:textStyle="bold"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_profile_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email: --"
-            android:textStyle="bold"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tv_profile_dni"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DNI: --"
-            android:textStyle="bold"
-            android:textSize="14sp" />
-
-        <!-- Separación -->
-        <View
+        <!-- Información del perfil -->
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CCCCCC"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp" />
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:background="#F5F5F5"
+            android:elevation="2dp"
+            android:layout_marginBottom="20dp">
 
-        <!-- Título de reservas -->
+            <TextView
+                android:id="@+id/tv_profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre: --"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#000000" />
+
+            <TextView
+                android:id="@+id/tv_profile_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Teléfono: --"
+                android:textSize="14sp"
+                android:textColor="#444444"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:id="@+id/tv_profile_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email: --"
+                android:textSize="14sp"
+                android:textColor="#444444"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:id="@+id/tv_profile_dni"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DNI: --"
+                android:textSize="14sp"
+                android:textColor="#444444"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+        <!-- Título de la sección de reservas -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tus Reservas"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold"
+            android:textColor="#333333"
             android:layout_marginBottom="8dp"/>
 
         <!-- Lista de reservas -->
@@ -80,6 +82,6 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"/>
+            android:nestedScrollingEnabled="false" />
     </LinearLayout>
 </ScrollView>
