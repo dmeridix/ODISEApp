@@ -15,10 +15,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class FavoritesAdapter(
     private var lugares: List<Lugar>,
-    private val favoritosIds: MutableSet<Int>, // Lista mutable de IDs de favoritos
+    private val favoritosIds: MutableSet<Int>,
     private val context: Context,
-    private val onItemClick: (Lugar) -> Unit, // Acción al hacer clic en el ítem
-    private val onFavoriteClick: (Lugar, Int) -> Unit // Acción al hacer clic en el botón flotante
+    private val onItemClick: (Lugar) -> Unit,
+    private val onFavoriteClick: (Lugar, Int) -> Unit
 ) : RecyclerView.Adapter<FavoritesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,24 +27,28 @@ class FavoritesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val lugar = lugares.getOrNull(position)
-        if (lugar != null) {
-            holder.bindPlace(lugar, position)
-        } else {
-            holder.hidePlace()
-        }
+        lugares.getOrNull(position)?.let { holder.bindPlace(it, position) }
     }
 
     override fun getItemCount(): Int = lugares.size
 
     /**
-     * Actualiza los datos del adaptador y notifica los cambios.
+     * Actualiza la lista completa de lugares y favoritos
      */
     fun updateData(newLugares: List<Lugar>, nuevosFavoritos: Set<Int>) {
-        this.lugares = newLugares
+        lugares = newLugares
         favoritosIds.clear()
         favoritosIds.addAll(nuevosFavoritos)
-        notifyDataSetChanged() // Notifica al RecyclerView que los datos han cambiado
+        notifyDataSetChanged()
+    }
+
+    /**
+     * Solo actualiza los favoritos sin tocar la lista de lugares
+     */
+    fun updateFavoritos(nuevosFavoritos: Set<Int>) {
+        favoritosIds.clear()
+        favoritosIds.addAll(nuevosFavoritos)
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -55,17 +59,12 @@ class FavoritesAdapter(
         private val bookmarkFab: FloatingActionButton = itemView.findViewById(R.id.fab_add_to_favorites)
 
         fun bindPlace(lugar: Lugar, position: Int) {
-            // Cargar la imagen usando Glide
-            Glide.with(context)
-                .load(lugar.imagenUrl)
-                .into(placeImage)
+            Glide.with(context).load(lugar.imagenUrl).into(placeImage)
 
-            // Configurar los campos de texto
             placeName.text = lugar.nombre
             placeLocation.text = lugar.ubicacion ?: "Ubicación no disponible"
             placeRating.text = lugar.valoracion?.toString() ?: "Sin calificación"
 
-            // Mostrar el estado correcto del botón flotante
             val esFavorito = favoritosIds.contains(lugar.id)
             bookmarkFab.setImageDrawable(
                 ContextCompat.getDrawable(
@@ -74,17 +73,15 @@ class FavoritesAdapter(
                 )
             )
 
-            // Acción al hacer clic en el botón flotante
             bookmarkFab.setOnClickListener {
                 onFavoriteClick(lugar, position)
             }
 
-            // Acción al hacer clic en el ítem
             itemView.setOnClickListener {
                 onItemClick(lugar)
             }
 
-            // Asegúrate de que las vistas estén visibles
+
             placeImage.visibility = View.VISIBLE
             placeName.visibility = View.VISIBLE
             placeLocation.visibility = View.VISIBLE
@@ -92,7 +89,6 @@ class FavoritesAdapter(
         }
 
         fun hidePlace() {
-            // Ocultar las vistas si el lugar no existe
             placeImage.visibility = View.GONE
             placeName.visibility = View.GONE
             placeLocation.visibility = View.GONE

@@ -159,38 +159,44 @@ class DetailFragment : Fragment() {
     }
 
     private fun agregarAFavoritos(lugar: Lugar) {
+        isFavorite = true
+        actualizarIconoFavorito()
+
         RetrofitClient.apiService.agregarAFavoritos(
             socioId,
             lugar.tipoEstablecimiento ?: "",
             lugar.id
         ).enqueue(object : Callback<Map<String, Any>> {
             override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
-                if (response.isSuccessful) {
-                    isFavorite = true
-                    actualizarIconoFavorito()
-                }
+                // Confirmación opcional si quieres
             }
 
             override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
                 t.printStackTrace()
+                isFavorite = false
+                actualizarIconoFavorito()
+                mostrarMensajeError("Error al añadir a favoritos")
             }
         })
     }
 
     private fun eliminarFavorito(lugar: Lugar) {
+        isFavorite = false
+        actualizarIconoFavorito()
+
         RetrofitClient.apiService.eliminarFavorito(
             socioId,
             lugar.id
         ).enqueue(object : Callback<Map<String, Any>> {
             override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
-                if (response.isSuccessful) {
-                    isFavorite = false
-                    actualizarIconoFavorito()
-                }
+                // OK
             }
 
             override fun onFailure(call: Call<Map<String, Any>>, t: Throwable) {
                 t.printStackTrace()
+                isFavorite = true
+                actualizarIconoFavorito()
+                mostrarMensajeError("Error al eliminar de favoritos")
             }
         })
     }

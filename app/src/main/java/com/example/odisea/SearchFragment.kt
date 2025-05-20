@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -52,6 +53,21 @@ class SearchFragment : Fragment() {
         tabSpa = view.findViewById(R.id.tabSpa)
         tabTracks = view.findViewById(R.id.tabTracks)
 
+        adapter = FavoritesAdapter(
+            emptyList(),
+            favoritosIds,
+            requireContext(),
+            onItemClick = { lugar -> openDetailFragment(lugar) },
+            onFavoriteClick = { lugar, position ->
+                if (favoritosIds.contains(lugar.id)) {
+                    eliminarFavorito(lugar, position)
+                } else {
+                    agregarAFavoritos(lugar, position)
+                }
+            }
+        )
+        recyclerView.adapter = adapter
+
         setupCategoryTabs()
         highlightSelectedTab(tabRestaurant)
         fetchFavoritosYBuscar("", currentCategory)
@@ -82,7 +98,7 @@ class SearchFragment : Fragment() {
             tab.setOnClickListener {
                 currentCategory = category
                 highlightSelectedTab(tab)
-                fetchFavoritosYBuscar(searchEditText.text.toString(), currentCategory) // Aquí se filtra por categoría
+                fetchFavoritosYBuscar(searchEditText.text.toString(), currentCategory)
             }
         }
     }
@@ -116,26 +132,8 @@ class SearchFragment : Fragment() {
                 override fun onResponse(call: Call<List<Lugar>>, response: Response<List<Lugar>>) {
                     if (response.isSuccessful) {
                         val lugares = response.body() ?: emptyList()
-
-                        // Filtrar los favoritos solo entre los lugares que están en la categoría actual
-                        val favoritosFiltrados = lugares.filter { favoritos.contains(it.id) }.map { it.id }.toSet()
-
-                        favoritosIds = favoritosFiltrados.toMutableSet()
-
-                        adapter = FavoritesAdapter(
-                            lugares,
-                            favoritosIds,
-                            requireContext(),
-                            onItemClick = { lugar -> openDetailFragment(lugar) },
-                            onFavoriteClick = { lugar, position ->
-                                if (favoritosIds.contains(lugar.id)) {
-                                    eliminarFavorito(lugar, position)
-                                } else {
-                                    agregarAFavoritos(lugar, position)
-                                }
-                            }
-                        )
-                        recyclerView.adapter = adapter
+                        favoritosIds = favoritos.toMutableSet()
+                        adapter.updateData(lugares, favoritosIds)
                     }
                 }
 

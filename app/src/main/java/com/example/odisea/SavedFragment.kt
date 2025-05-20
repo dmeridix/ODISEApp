@@ -25,6 +25,7 @@ class SavedFragment : Fragment() {
     private lateinit var sharedPreferenceHelper: SharedPreferenceHelper
     private var socioId: Int = -1
     private var favoritosIds = mutableSetOf<Int>()
+    private var lugaresGuardados = emptyList<Lugar>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +48,7 @@ class SavedFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         adapter = FavoritesAdapter(
-            emptyList(),
+            lugaresGuardados,
             favoritosIds,
             requireContext(),
             onItemClick = { lugar -> openDetailFragment(lugar) },
@@ -59,8 +60,8 @@ class SavedFragment : Fragment() {
                 }
             }
         )
-        recyclerView.adapter = adapter
 
+        recyclerView.adapter = adapter
         loadSavedPlaces()
     }
 
@@ -72,7 +73,7 @@ class SavedFragment : Fragment() {
                 override fun onResponse(call: Call<List<Lugar>>, response: Response<List<Lugar>>) {
                     progressBar.visibility = View.GONE
                     if (response.isSuccessful && response.body() != null) {
-                        val lugaresGuardados = response.body()!!
+                        lugaresGuardados = response.body()!!
                         favoritosIds = lugaresGuardados.map { it.id }.toMutableSet()
                         adapter.updateData(lugaresGuardados, favoritosIds)
                     } else {
@@ -117,7 +118,9 @@ class SavedFragment : Fragment() {
                 override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
                     if (response.isSuccessful) {
                         favoritosIds.remove(lugar.id)
-                        adapter.notifyItemChanged(position)
+                        // Si quieres ocultarlo al quitarlo, puedes usar esto:
+                        lugaresGuardados = lugaresGuardados.filterNot { it.id == lugar.id }
+                        adapter.updateData(lugaresGuardados, favoritosIds)
                     }
                 }
 

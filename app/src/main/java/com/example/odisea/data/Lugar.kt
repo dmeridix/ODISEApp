@@ -15,5 +15,6 @@ data class Lugar(
     val imagenUrl: String? = null,
     val detalles: String? = null,
     @SerializedName("tipo_establecimiento")
-    val tipoEstablecimiento: String?
+    val tipoEstablecimiento: String?,
+    var esFavorito: Boolean = false
 ) : Parcelable
